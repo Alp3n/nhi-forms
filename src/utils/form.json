@@ -1,0 +1,192 @@
+{
+  "_id": "32131231dsa",
+  "createdBy": "Adam Walukiewicz",
+  "createdAt": "05/21/2021",
+  "content": [
+    {
+      "questionId": "1",
+      "question": "Imię i nazwisko",
+      "options": null,
+      "type": "text",
+      "required": true,
+      "dependentQuestions": null
+    },
+    {
+      "questionId": "2",
+      "question": "Wiek pacjenta",
+      "options": null,
+      "type": "number",
+      "required": true,
+      "dependentQuestions": null
+    },
+    {
+      "questionId": "3",
+      "question": "Jak długo pacjent stara się o potomstwo? (w miesiącach)",
+      "options": null,
+      "type": "number",
+      "required": true,
+      "dependentQuestions": null
+    },
+    {
+      "questionId": "4",
+      "question": "Ile razy pacjent wykonał badania nasienia w czasie starań o ciążę?",
+      "options": null,
+      "type": "number",
+      "required": true,
+      "dependentQuestions": [
+        {
+          "questionId": "5",
+          "question": "Jakie badania",
+          "type": "checkboxgroup",
+          "options": [
+            "Normospermia",
+            "OAT I",
+            "OAT II",
+            "OAT III",
+            "Cryptozoospermia",
+            "Azoosspermia",
+            "Aspermia"
+          ]
+        }
+      ]
+    },
+    {
+      "questionId": "6",
+      "question": "Choroby towarzyszące",
+      "options": [
+        "Urologiczne",
+        "Internistyczne",
+        "Endokrynologiczne",
+        "Chirurgiczne",
+        "Onkologiczne",
+        "Inne"
+      ],
+      "type": "checkboxgroup",
+      "required": false,
+      "dependentQuestions": null
+    },
+    {
+      "questionId": "7",
+      "question": "Ocena ginekologiczna czynnika żeńskiego",
+      "options": [
+        "Płodna",
+        "Zaburzenia owilacji",
+        "PCOS",
+        "Niedrożność jajowodów",
+        "Inne"
+      ],
+      "type": "checkboxgroup",
+      "required": true,
+      "dependentQuestions": null
+    },
+    {
+      "questionId": "8",
+      "question": "Czy pacjent chorował w ostatnim czasie na COVID?",
+      "options": [
+        { "id": "1", "name": "8", "value": "Tak", "label": "Tak" },
+        { "id": "2", "name": "8", "value": "Nie", "label": "Nie" }
+      ],
+      "type": "radiobuttongroup",
+      "required": true,
+      "dependentQuestions": null
+    },
+    {
+      "questionId": "9",
+      "question": "Czy pacjent jest zaszczepiony przeciw SARS-COV-2?",
+      "options": ["Tak", "Nie"],
+      "type": "radiobuttongroup",
+      "required": true,
+      "dependentQuestions": [
+        {
+          "questionId": "10",
+          "question": "Ile dawek?",
+          "type": "radiobuttongroup",
+          "options": ["Jedna", "Dwie"],
+          "required": false
+        },
+        {
+          "questionId": "11",
+          "question": "Czy wystąpiły odczyny poszczepienne?",
+          "type": "radiobuttongroup",
+          "options": [
+            { "id": "3", "name": "8", "value": "Tak", "label": "Tak" },
+            { "id": "4", "name": "8", "value": "Nie", "label": "Nie" }
+          ],
+          "required": false
+        }
+      ]
+    },
+    {
+      "questionId": "12",
+      "question": "Czy wykonywał badania nasienia w okresie około-COVID?",
+      "options": [
+        { "id": "5", "name": "8", "value": "Tak", "label": "Tak" },
+        { "id": "6", "name": "8", "value": "Nie", "label": "Nie" }
+      ],
+      "type": "radiobuttongroup",
+      "required": true,
+      "dependentQuestions": [
+        {
+          "questionId": "13",
+          "question": "Jeśli tak to czy nastąpiło",
+          "type": "radiobuttongroup",
+          "options": ["Pogorszenie", "Poprawa", "Bez zmian"],
+          "required": false
+        }
+      ]
+    },
+    {
+      "questionId": "14",
+      "question": "Czy była stosowana / stosuje terapia poprawiającą płodność?",
+      "options": [
+        { "id": "7", "name": "8", "value": "Tak", "label": "Tak" },
+        { "id": "8", "name": "8", "value": "Nie", "label": "Nie" }
+      ],
+      "type": "radiobuttongroup",
+      "required": true,
+      "dependentQuestions": [
+        {
+          "questionId": "15",
+          "question": "Jeśli tak to jaka?",
+          "type": "text",
+          "options": null,
+          "required": false
+        }
+      ]
+    },
+    {
+      "questionId": "16",
+      "question": "Czy stosował / stosuje terapie stresu oksydacyjnego (suplementy)?",
+      "options": [
+        { "id": "9", "name": "8", "value": "Tak", "label": "Tak" },
+        { "id": "10", "name": "8", "value": "Nie", "label": "Nie" }
+      ],
+      "type": "radiobuttongroup",
+      "required": true,
+      "dependentQuestions": [
+        {
+          "questionId": "17",
+          "question": "Jeśli tak to jaki preparat?",
+          "type": "text",
+          "options": null,
+          "required": false
+        },
+        {
+          "questionId": "18",
+          "question": "I jak długo? (w miesiącach)",
+          "type": "number",
+          "options": null,
+          "required": false
+        }
+      ]
+    },
+    {
+      "questionId": "19",
+      "question": "Dodatkowy komentarz",
+      "options": null,
+      "type": "text",
+      "required": false,
+      "dependentQuestions": null
+    }
+  ]
+}
