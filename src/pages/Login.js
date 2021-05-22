@@ -33,7 +33,7 @@ const Login = () => {
       title='NHI Formularze'
       titleBackground='light-1'
     >
-      <Card height='medium' width='medium' background='light-1'>
+      <Card height='medium' width='medium' background='light-1' round='none'>
         <CardBody pad='small' gap='small'>
           <Text size='large' weight='bold' margin='xsmall'>
             Zaloguj się

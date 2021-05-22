@@ -5,7 +5,7 @@ const Layout = ({ children, center, background, titleBackground, title }) => {
   return (
     <StyledWrapper fill>
       {title ? (
-        <Box pad='medium' background={titleBackground}>
+        <Box pad='small' background={titleBackground}>
           <Text weight='bold' size='large'>
             {title}
           </Text>

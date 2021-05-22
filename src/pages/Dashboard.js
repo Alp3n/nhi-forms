@@ -1,72 +1,18 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
-import {
-  Box,
-  Button,
-  CheckBoxGroup,
-  Form,
-  FormField,
-  Grid,
-  InfiniteScroll,
-  RadioButtonGroup,
-  Text,
-  TextInput,
-} from 'grommet';
+import { Box, Grid, InfiniteScroll, Text } from 'grommet';
 import Layout from '../components/Layout';
 import form from '../utils/form.json';
 import PatientCard from '../components/PatientCard';
-
-const defaultState = {};
+import { useFetch } from '../hooks/useFetch';
+import { SHEET_URL } from '../utils/consts';
+import GoogleForm from '../components/GoogleForm';
 
 const Dashboard = () => {
   const [formState, setFormState] = useState();
-  console.log(formState);
 
-  // Function creating form from JSON
-  const createFormElement = (question) => {
-    switch (question.type) {
-      case 'text':
-        return (
-          <TextInput
-            type='text'
-            name={question.questionId}
-            // value={formState}
-            // onChange={(event) => setFormState(event.target.value)}
-          />
-        );
-      case 'number':
-        return (
-          <TextInput
-            type='number'
-            name={question.questionId}
-            // value={formState}
-            // onChange={(event) => setFormState(event.target.value)}
-          />
-        );
-      case 'radiobuttongroup':
-        return (
-          <RadioButtonGroup
-            htmlFor={question.questionId}
-            options={question.options}
-            name={question.questionId}
-            // value={formState}
-            // onChange={(event) => setFormState(event.target.value)}
-          />
-        );
-      case 'checkboxgroup':
-        return (
-          <CheckBoxGroup
-            htmlFor={question.questionId}
-            options={question.options}
-            name={question.questionId}
-            // value={formState}
-            // onChange={(event) => setFormState(event.target.value)}
-          />
-        );
-      default:
-        return null;
-    }
-  };
+  const { status, data } = useFetch(SHEET_URL, false);
+  console.log(status, data);
 
   return (
     <Layout
@@ -94,54 +40,8 @@ const Dashboard = () => {
             <Text size='large'>Aktualny formularz</Text>
           </Box>
 
-          <Box overflow='auto' pad={{ horizontal: 'medium' }} height='100%'>
-            <Form
-              onSubmit={({ value }) => setFormState(value)}
-              messages={{ required: 'Wymagane...' }}
-            >
-              {form
-                ? form.content.map((question, index) => (
-                    <Box key={question.questionId}>
-                      <FormField
-                        name={question.questionId}
-                        label={
-                          question.required
-                            ? `${question.questionId}. ${question.question}
-                              *
-                            `
-                            : `${question.questionId}. ${question.question}`
-                        }
-                        required={question.required}
-                      >
-                        {createFormElement(question)}
-                      </FormField>
-
-                      {question.dependentQuestions
-                        ? question.dependentQuestions.map((subQuestion) => (
-                            <FormField
-                              key={subQuestion.questionId}
-                              name={subQuestion.questionId}
-                              label={
-                                subQuestion.required
-                                  ? `${subQuestion.questionId}. ${subQuestion.question}
-                              *
-                            `
-                                  : `${subQuestion.questionId}. ${subQuestion.question}`
-                              }
-                              required={subQuestion.required}
-                            >
-                              {createFormElement(subQuestion)}
-                            </FormField>
-                          ))
-                        : null}
-                    </Box>
-                  ))
-                : null}
-              <Box direction='row' pad='medium' justify='around'>
-                <Button type='reset' label='Resetuj' size='large' />
-                <Button type='submit' primary label='Prześlij' size='large' />
-              </Box>
-            </Form>
+          <Box overflow='auto' height='100%'>
+            <GoogleForm />
           </Box>
         </Box>
 
@@ -154,37 +54,27 @@ const Dashboard = () => {
           >
             <Text size='large'>Wyniki pacjentów</Text>
           </Box>
-          <Box overflow='auto'>
+          <Box overflow='auto' pad={{ vertical: 'small' }}>
             <Grid pad={{ horizontal: 'medium' }} gap='small'>
-              <InfiniteScroll
-                items={[
-                  { name: 'Pacjet 1' },
-                  { name: 'Pacjet 2' },
-                  { name: 'Pacjet 3' },
-                  { name: 'Pacjet 4' },
-                  { name: 'Pacjet 5' },
-                  { name: 'Pacjet 6' },
-                  { name: 'Pacjet 6' },
-                  { name: 'Pacjet 6' },
-                  { name: 'Pacjet 6' },
-                  { name: 'Pacjet 6' },
-                  { name: 'Pacjet 6' },
-                ]}
-              >
-                {(item) => <PatientCard name={item.name} />}
-              </InfiniteScroll>
-
-              {/* formState &&
-              form.content.map((question) => (
-                <>
-                   <Text margin='xsmall' weight='bold'>
-                    {question.question}
-                  </Text>
-                  <Text margin='xsmall'>
-                    {Object.values(formState[question.questionId])}
-                  </Text>
-                </>
-              )) */}
+              {status === 'fetched' ? (
+                <InfiniteScroll items={data.data}>
+                  {(item) => (
+                    <PatientCard
+                      key={item['row_id']}
+                      item={item}
+                      name={item['1. Imię i nazwisko:']}
+                      age={item['2. Wiek pacjenta:']}
+                      checkboxValues={[
+                        item['Pierwsze'],
+                        item['Drugie'],
+                        item['Trzecie'],
+                        item['Czwarte'],
+                        item['Piąte'],
+                      ]}
+                    />
+                  )}
+                </InfiniteScroll>
+              ) : null}
             </Grid>
           </Box>
         </Box>
