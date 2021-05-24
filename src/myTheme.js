@@ -16,4 +16,9 @@ export const lightTheme = deepMerge(grommet, {
       'portrait-3': '#CAE3F2',
     },
   },
+  formField: {
+    label: {
+      requiredIndicator: true,
+    },
+  },
 });

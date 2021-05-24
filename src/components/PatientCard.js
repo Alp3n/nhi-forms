@@ -1,12 +1,22 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useContext } from 'react';
+import { ModalContext } from '../context/modalContext';
 import { Box, Button, CheckBoxGroup, Text } from 'grommet';
 import { ContactInfo } from 'grommet-icons';
 import { SHEET_URL } from '../utils/consts';
+import PatientDetails from './PatientDetails';
 
 const PatientCard = ({ item }) => {
   const [value, setValue] = useState();
+  const [disabled, setDisabled] = useState(true);
+  const [changed, setChanged] = useState();
 
-  const [fetchBody, setFetchBody] = useState();
+  const { openModal, closeModal } = useContext(ModalContext);
+
+  const handleChange = (value) => {
+    setValue(value);
+    setDisabled(value.length === 0 ? true : false);
+    setChanged(Math.random());
+  };
 
   useEffect(() => {
     const checkboxValues = [
@@ -18,10 +28,11 @@ const PatientCard = ({ item }) => {
     ];
 
     let cleanValues = checkboxValues.filter((obj) => obj !== undefined);
+
     setValue(cleanValues);
   }, [item]);
 
-  useEffect(() => {
+  const handleChangeSubmit = () => {
     //Fetch for PUT method
     const fetchPUT = async (url, data) => {
       const response = await fetch(url, {
@@ -35,58 +46,88 @@ const PatientCard = ({ item }) => {
       return response.json();
     };
 
-    if (value) {
-      const transformBody = (item, value) => {
-        let tempBody = {
-          ...item,
-          Pierwsze: value.filter((val) => val === 'Pierwsze').toString(),
-          Drugie: value.filter((val) => val === 'Drugie').toString(),
-          Trzecie: value.filter((val) => val === 'Trzecie').toString(),
-          Czwarte: value.filter((val) => val === 'Czwarte').toString(),
-          Piąte: value.filter((val) => val === 'Piąte').toString(),
-        };
-        return tempBody;
+    const transformBody = (item, value) => {
+      let tempBody = {
+        ...item,
+        Pierwsze: value.filter((val) => val === 'Pierwsze').toString(),
+        Drugie: value.filter((val) => val === 'Drugie').toString(),
+        Trzecie: value.filter((val) => val === 'Trzecie').toString(),
+        Czwarte: value.filter((val) => val === 'Czwarte').toString(),
+        Piąte: value.filter((val) => val === 'Piąte').toString(),
       };
-  
-      const body = transformBody(item, value)
-  
-      // if (value !== undefined) {
-      //   setFetchBody(transformBody(item, value));
-      // }
-  
-      fetchPUT(SHEET_URL, body);
-    }
-  }, [value, item]);
+      return tempBody;
+    };
 
-  console.log(value);
+    const body = transformBody(item, value);
+
+    fetchPUT(SHEET_URL, body);
+    setChanged(false);
+    alert('Zatwierdzono zmianę');
+  };
+
+  const handleCancel = () => {
+    setChanged(false);
+  };
+
   return (
-    <Box background='light-2' round>
+    <Box background='light-2' elevation='small' round>
       <Box
         direction='row'
         justify='between'
         pad='medium'
         border={{ side: 'bottom' }}
       >
-        <Box direction='row' gap='medium'>
-          <Text weight='bold' size='large'>
-            Inicjały: {item['1. Imię i nazwisko:']}
+        <Box direction='row' gap='medium' align='center'>
+          <Text>
+            Inicjały: <Text weight='bold'>{item['1. Inicjały pacjenta:']}</Text>
           </Text>
-          <Text weight='bold' size='large'>
-            Wiek: {item['2. Wiek pacjenta:']}
+          <Text>
+            Wiek: <Text weight='bold'>{item['2. Wiek pacjenta:']}</Text>
+          </Text>
+          <Text>
+            Utworzono: <Text weight='bold'>{item['Sygnatura czasowa']}</Text>
           </Text>
         </Box>
-        <Button label='Szczegóły' plain icon={<ContactInfo />} />
+        <Button
+          label='Szczegóły'
+          plain
+          icon={<ContactInfo />}
+          onClick={() => openModal(<PatientDetails item={item} />)}
+        />
       </Box>
-      <Box direction='row' pad='medium' justify='around' align='center'>
-        <Text>Opakowanie</Text>
+      <Box
+        direction='row'
+        pad='medium'
+        justify='around'
+        align='center'
+        overflow='auto'
+      >
+        <Text margin={{ right: 'small' }}>Opakowanie</Text>
         <CheckBoxGroup
           direction='row'
           value={value}
-          // valueKey={'1'}
-          onChange={({ value, option }) => setValue(value)}
+          onChange={({ value }) => handleChange(value)}
           options={['Pierwsze', 'Drugie', 'Trzecie', 'Czwarte', 'Piąte']}
+          pad={{ right: 'small' }}
         />
       </Box>
+      {changed ? (
+        <Box direction='row' justify='between'>
+          <Button
+            label='Anuluj'
+            margin='small'
+            disabled={disabled}
+            onClick={() => handleCancel()}
+          />
+          <Button
+            label='Zatwierdź'
+            primary
+            margin='small'
+            disabled={disabled}
+            onClick={() => handleChangeSubmit()}
+          />
+        </Box>
+      ) : null}
     </Box>
   );
 };

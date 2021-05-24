@@ -1,17 +1,12 @@
-import {
-  Box,
-  Form,
-  FormField,
-  Text,
-  Button,
-  TextInput,
-  Card,
-  CardBody,
-} from 'grommet';
-import { useState } from 'react';
+import { useState, useContext } from 'react';
+import { ANKIETA } from '../utils/consts';
+import { Box, Button, Text } from 'grommet';
+
 import { Redirect, useHistory } from 'react-router';
-import styled from 'styled-components';
 import Layout from '../components/Layout';
+import { AuthContext } from '../context/authContext';
+import EntryForm from '../components/EntryForm';
+import styled from 'styled-components';
 
 const defaultLoginData = {
   email: '',
@@ -20,73 +15,88 @@ const defaultLoginData = {
 
 const Login = () => {
   const [loginData, setLoginData] = useState(defaultLoginData);
-  const history = useHistory();
-  const handleSubmit = () => {
-    // <Redirect to='/dashboard' />;
-    history.push('/dashboard');
-  };
+  const [register, setRegister] = useState(false);
+  const { user, loading, error, login, signOut } = useContext(AuthContext);
 
+  let history = useHistory();
+
+  if (user) {
+    return <Redirect to='/dashboard' />;
+  }
+
+  console.log('ERROR', error);
   return (
     <Layout
       center
       background='portrait-2'
       title='NHI Formularze'
       titleBackground='light-1'
+      login
     >
-      <Card height='medium' width='medium' background='light-1' round='none'>
-        <CardBody pad='small' gap='small'>
-          <Text size='large' weight='bold' margin='xsmall'>
-            Zaloguj się
-          </Text>
-          <Form
-            value={loginData}
-            onChange={(nextValue) => setLoginData(nextValue)}
-            onSubmit={
-              ({ loginData }) => handleSubmit()
-              /* TODO Firebase auth */
-            }
-            messages={{ required: 'Wymagany...' }}
+      <Box width='100%' direction='row' justify='around'>
+        <Box direction='column' gap='small'>
+          <EntryForm
+            register={register}
+            login={login}
+            signOut={signOut}
+            loading={loading}
+            error={error}
+            loginData={loginData}
+            setLoginData={setLoginData}
+            setRegister={setRegister}
+            history={history}
+          />
+          <Box
+            width='medium'
+            pad='small'
+            margin='small'
+            background='light-1'
+            elevation='small'
           >
-            <FormField
-              name='email'
-              label='Twój email'
-              htmlFor='email-input-id'
-              required
-            >
-              <TextInput
-                id='email-input-id'
-                name='email'
-                placeholder='Wpisz swój email...'
-              />
-            </FormField>
-            <FormField
-              name='password'
-              label='Twoje hasło'
-              htmlFor='password-input-id'
-              required
-            >
-              <TextInput
-                id='password-input-id'
-                name='password'
-                placeholder='Wpisz swoje hasło...'
-                type='password'
-              />
-            </FormField>
-            <Box gap='medium'>
-              <Button label='Zaloguj' type='submit' primary size='large' />
-              <Button
-                label='Nie masz konta? Kliknij tutaj aby się zarejestrować.'
-                plain
-                size='small'
-                color='primary'
-                style={{ fontSize: '16px' }}
-              />
-            </Box>
-          </Form>
-        </CardBody>
-      </Card>
+            <LinkWrapper href='https://docs.google.com/forms/d/e/1FAIpQLSeabZ7p0goqPk7CJubW7yzSESQC2FxtX9JAp2FSESGpeCTV-Q/viewform'>
+              <PrintButton label='Wydrukuj ankietę' />
+            </LinkWrapper>
+            <Text margin='small'>
+              Aby wydrukować ankietę kliknij w przycisk powyżej, a następnie na
+              kalwiaturze CTRL+P, lub prawy przycisk myszy i opcja "Drukuj"
+            </Text>
+          </Box>
+        </Box>
+
+        <Box
+          width='40%'
+          overflow='auto'
+          background='light-1'
+          pad='small'
+          margin='small'
+          elevation='small'
+        >
+          {ANKIETA.map((el) => (
+            <Text key={el} margin={{ bottom: 'small' }} size='16px'>
+              {el}
+            </Text>
+          ))}
+          <Text></Text>
+        </Box>
+      </Box>
     </Layout>
   );
 };
 
 export default Login;
+
+const LinkWrapper = styled.a`
+  display: block;
+  width: 100%;
+`;
+
+const PrintButton = styled(Button)`
+  width: 100%;
+  background-color: #f8f8f8;
+  transition: all 0.2s ease-in-out;
+  :hover {
+    background-color: #1c94b4;
+    color: white;
+    /* transform: scale(1.02); */
+  }
+`;

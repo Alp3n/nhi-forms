@@ -46,6 +46,11 @@ export const useFetch = (url, dependency) => {
     if (dependency !== null) {
       return fetchData();
     }
+
+    // return () => {
+    //   setStatus();
+    //   setData();
+    // };
   }, [url, dependency]);
 
   return { status, data };

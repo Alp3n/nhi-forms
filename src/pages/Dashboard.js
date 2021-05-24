@@ -1,18 +1,22 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useContext } from 'react';
+import { AuthContext } from '../context/authContext';
+import { useFetch } from '../hooks/useFetch';
+import { SEARCH_URL } from '../utils/consts';
 
 import { Box, Grid, InfiniteScroll, Text } from 'grommet';
 import Layout from '../components/Layout';
-import form from '../utils/form.json';
 import PatientCard from '../components/PatientCard';
-import { useFetch } from '../hooks/useFetch';
-import { SHEET_URL } from '../utils/consts';
 import GoogleForm from '../components/GoogleForm';
 
 const Dashboard = () => {
-  const [formState, setFormState] = useState();
+  const [change, setChange] = useState();
+  const { user } = useContext(AuthContext);
 
-  const { status, data } = useFetch(SHEET_URL, false);
-  console.log(status, data);
+  // const { status, data } = useFetch(SEARCH_URL + user.email, change);
+
+  const handleChange = (id) => {
+    setChange(id);
+  };
 
   return (
     <Layout
@@ -21,7 +25,7 @@ const Dashboard = () => {
       titleBackground='light-1'
     >
       <Grid
-        rows={['large']}
+        rows={['85vh']}
         columns={['35%', '60%']}
         areas={[
           { name: 'form', start: [0, 0], end: [1, 0] },
@@ -33,48 +37,47 @@ const Dashboard = () => {
         <Box gridArea='form' background='light-1' elevation='small'>
           <Box
             background='light-2'
-            margin={{ bottom: 'medium' }}
             pad='medium'
             justify='center'
+            elevation='small'
           >
             <Text size='large'>Aktualny formularz</Text>
           </Box>
 
-          <Box overflow='auto' height='100%'>
-            <GoogleForm />
+          <Box overflow='auto' height='100%' pad={{ vertical: 'small' }}>
+            <GoogleForm handleChange={handleChange} />
           </Box>
         </Box>
 
         <Box gridArea='table' background='light-1' elevation='small'>
           <Box
             background='light-2'
-            margin={{ bottom: 'medium' }}
             pad='medium'
             justify='center'
+            elevation='small'
+            style={{ zIndex: 3 }}
           >
-            <Text size='large'>Wyniki pacjentów</Text>
+            {/* <Text size='large'>Wyniki pacjentów: {data.length}</Text> */}
           </Box>
-          <Box overflow='auto' pad={{ vertical: 'small' }}>
+          <Box overflow='auto' pad={{ vertical: 'medium' }}>
             <Grid pad={{ horizontal: 'medium' }} gap='small'>
-              {status === 'fetched' ? (
-                <InfiniteScroll items={data.data}>
+              {/* {status === 'fetched' ? (
+                <InfiniteScroll items={data}>
                   {(item) => (
                     <PatientCard
                       key={item['row_id']}
                       item={item}
-                      name={item['1. Imię i nazwisko:']}
-                      age={item['2. Wiek pacjenta:']}
-                      checkboxValues={[
-                        item['Pierwsze'],
-                        item['Drugie'],
-                        item['Trzecie'],
-                        item['Czwarte'],
-                        item['Piąte'],
-                      ]}
+                      // checkboxValues={[
+                      //   item['Pierwsze'],
+                      //   item['Drugie'],
+                      //   item['Trzecie'],
+                      //   item['Czwarte'],
+                      //   item['Piąte'],
+                      // ]}
                     />
                   )}
                 </InfiniteScroll>
-              ) : null}
+              ) : null} */}
             </Grid>
           </Box>
         </Box>
