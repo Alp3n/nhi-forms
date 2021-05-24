@@ -10,7 +10,7 @@ const PatientCard = ({ item }) => {
   const [disabled, setDisabled] = useState(true);
   const [changed, setChanged] = useState();
 
-  const { openModal, closeModal } = useContext(ModalContext);
+  const { openModal } = useContext(ModalContext);
 
   const handleChange = (value) => {
     setValue(value);

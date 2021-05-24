@@ -1,4 +1,4 @@
-import { Box, Text, Button } from 'grommet';
+import { Box, Text } from 'grommet';
 
 const Detail = ({ title, data }) => {
   return (
@@ -91,31 +91,5 @@ const PatientDetails = ({ item }) => {
     </Box>
   );
 };
-
-/* 
-1. Inicjały pacjenta:: "I P"
-2. Wiek pacjenta:: "24"
-3. Jak długo pacjent stara się o potomstwo?: "2"
-4.1 Jeżli wykonywał, to jakie badania?: "Normospermia,OAT III,Azoosspermia"
-4. Ile razy pacjent wykonał badania nasienia w czasie starań o ciążę?: "3"
-5. Choroby towarzyszące:: "Urologiczne,Chirurgiczne"
-6. Ocena ginekologiczna czynnika żeńskiego:: "Zaburzenia owilacji"
-7. Czy pacjent chorował w ostatnim czasie na COVID?: "Tak"
-8.1 Jeżeli tak, to ile dawek?: "2"
-8.2 Czy wystąpiły odczyny poszczepienne ?: "Nie"
-8. Czy jest zaszczepiony przeciw SARS-COV-2?: "Nie"
-9.1 Jeśli tak, to czy nastąpiło:: "Poprawa"
-9. Czy wykonywał badania nasienia w okresie około-COVID?: "Nie"
-10.1 Jeśli tak to jaka?: "-"
-10. Czy była stosowana / stosuje terapia poprawiającą płodność?: "Nie"
-11.1 Jeśli tak, to jaki preparat i jak długo?: "-"
-11. Czy stosował / stosuje terapie stresu oksydacyjnego (suplementy)?: "Tak"
-12. Dodatkowy komentarz:: "-"
-Adres e-mail: "adam@walukiewicz.eu"
-Lekarz: "Adam Walukiewicz"
-Pierwsze: "Pierwsze"
-Sygnatura czasowa: "24.05.2021, 13:47:39"
-row_id: 2 
-*/
 
 export default PatientDetails;

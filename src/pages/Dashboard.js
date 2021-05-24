@@ -10,7 +10,7 @@ import GoogleForm from '../components/GoogleForm';
 
 const Dashboard = () => {
   const [change, setChange] = useState();
-  const [loading, setLoading] = useState(false);
+  // const [loading, setLoading] = useState(false);
   const { user } = useContext(AuthContext);
 
   const { status, data } = useFetch(SEARCH_URL + user.email, change);
@@ -19,9 +19,9 @@ const Dashboard = () => {
     setChange(id);
   };
 
-  const handleLoading = (bool) => {
-    setLoading(bool);
-  };
+  // const handleLoading = (bool) => {
+  //   setLoading(bool);
+  // };
 
   return (
     <Layout
