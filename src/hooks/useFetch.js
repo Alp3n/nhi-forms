@@ -15,7 +15,6 @@ export const useFetch = (url, dependency) => {
 
   useEffect(() => {
     if (!url) {
-      console.log('BRAK URL');
       return;
     }
 
@@ -38,7 +37,6 @@ export const useFetch = (url, dependency) => {
         setData(data);
         setStatus('fetched');
       } catch (err) {
-        console.log(err);
         setStatus(STATUS_TYPES.error);
       }
     };

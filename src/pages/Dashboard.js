@@ -10,12 +10,17 @@ import GoogleForm from '../components/GoogleForm';
 
 const Dashboard = () => {
   const [change, setChange] = useState();
+  const [loading, setLoading] = useState(false);
   const { user } = useContext(AuthContext);
 
-  // const { status, data } = useFetch(SEARCH_URL + user.email, change);
+  const { status, data } = useFetch(SEARCH_URL + user.email, change);
 
   const handleChange = (id) => {
     setChange(id);
+  };
+
+  const handleLoading = (bool) => {
+    setLoading(bool);
   };
 
   return (
@@ -57,27 +62,15 @@ const Dashboard = () => {
             elevation='small'
             style={{ zIndex: 3 }}
           >
-            {/* <Text size='large'>Wyniki pacjentów: {data.length}</Text> */}
+            <Text size='large'>Wyniki pacjentów: {data.length}</Text>
           </Box>
           <Box overflow='auto' pad={{ vertical: 'medium' }}>
             <Grid pad={{ horizontal: 'medium' }} gap='small'>
-              {/* {status === 'fetched' ? (
+              {status === 'fetched' ? (
                 <InfiniteScroll items={data}>
-                  {(item) => (
-                    <PatientCard
-                      key={item['row_id']}
-                      item={item}
-                      // checkboxValues={[
-                      //   item['Pierwsze'],
-                      //   item['Drugie'],
-                      //   item['Trzecie'],
-                      //   item['Czwarte'],
-                      //   item['Piąte'],
-                      // ]}
-                    />
-                  )}
+                  {(item) => <PatientCard key={item['row_id']} item={item} />}
                 </InfiniteScroll>
-              ) : null} */}
+              ) : null}
             </Grid>
           </Box>
         </Box>

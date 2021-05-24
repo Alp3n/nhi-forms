@@ -1,6 +1,6 @@
 import { useState, useContext } from 'react';
 import { ANKIETA } from '../utils/consts';
-import { Box, Button, Text } from 'grommet';
+import { Box, Button, Spinner, Text } from 'grommet';
 
 import { Redirect, useHistory } from 'react-router';
 import Layout from '../components/Layout';
@@ -24,7 +24,10 @@ const Login = () => {
     return <Redirect to='/dashboard' />;
   }
 
-  console.log('ERROR', error);
+  if (loading) {
+    return <Spinner size='large' />;
+  }
+
   return (
     <Layout
       center
@@ -58,7 +61,8 @@ const Login = () => {
             </LinkWrapper>
             <Text margin='small'>
               Aby wydrukować ankietę kliknij w przycisk powyżej, a następnie na
-              kalwiaturze CTRL+P, lub prawy przycisk myszy i opcja "Drukuj"
+              kalwiaturze CTRL+P, lub prawy przycisk myszy i wybierz opcję
+              "Drukuj"
             </Text>
           </Box>
         </Box>

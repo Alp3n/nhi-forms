@@ -3,8 +3,10 @@ import { Box, Text, Button } from 'grommet';
 const Detail = ({ title, data }) => {
   return (
     <Box direction='column' margin={{ bottom: 'small' }}>
-      <Text>{title}</Text>
-      <Text>{data}</Text>
+      <Text weight='bold' size='14px'>
+        {title}
+      </Text>
+      <Text size='14px'>{data}</Text>
     </Box>
   );
 };

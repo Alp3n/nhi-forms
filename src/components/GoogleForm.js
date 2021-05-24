@@ -51,7 +51,7 @@ const GoogleForm = ({ handleChange }) => {
   const transformValue = (value) => {
     return value === '' ? '-' : value;
   };
-  console.log("VALUE", value)
+
   // Function transforming data to match API model
   const transformBody = (value) => {
     let tempBody = [
@@ -115,17 +115,18 @@ const GoogleForm = ({ handleChange }) => {
           <TextInput name='1' placeholder='Twoja odpowiedź' />
         </FormField>
         <FormField name='2' label='2. Wiek pacjenta:' required>
-          <TextInput name='2' placeholder='Twoja odpowiedź' />
+          <TextInput name='2' placeholder='Twoja odpowiedź' type='number' />
         </FormField>
         <FormField
           name='3'
-          label='3. Jak długo pacjent stara się o potomstwo?'
+          label='3. Jak długo pacjent stara się o potomstwo? (w miesiącach)'
           required
         >
-          <TextInput name='3' placeholder='Twoja odpowiedź' />
+          <TextInput name='3' placeholder='Twoja odpowiedź' type='number' />
         </FormField>
         <FormField
           name='4'
+          type='number'
           label='4. Ile razy pacjent wykonał badania nasienia w czasie starań o ciążę?'
           required
         >
