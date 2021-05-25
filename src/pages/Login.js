@@ -1,6 +1,14 @@
 import { useState, useContext } from 'react';
 import { ANKIETA } from '../utils/consts';
-import { Box, Button, Spinner, Text } from 'grommet';
+import {
+  Box,
+  Button,
+  Spinner,
+  Text,
+  ResponsiveContext,
+  Grid,
+  DropButton,
+} from 'grommet';
 
 import { Redirect, useHistory } from 'react-router';
 import Layout from '../components/Layout';
@@ -13,9 +21,54 @@ const defaultLoginData = {
   password: '',
 };
 
+/* 
+MOBILE
+------
+FORM
+ABOUT
+PRINT
+
+
+MEDIUM
+------
+FORM ABOUT
+PRINT ABOUT
+
+
+*/
+
+const areas = {
+  small: [
+    { name: 'form', start: [0, 0], end: [1, 0] },
+    { name: 'about', start: [0, 1], end: [1, 1] },
+    { name: 'print', start: [0, 2], end: [1, 2] },
+  ],
+  medium: [
+    { name: 'form', start: [0, 0], end: [0, 1] },
+    { name: 'about', start: [1, 0], end: [1, 1] },
+    { name: 'print', start: [0, 1], end: [0, 1] },
+  ],
+  large: [
+    { name: 'form', start: [0, 0], end: [0, 1] },
+    { name: 'about', start: [1, 0], end: [1, 1] },
+    { name: 'print', start: [0, 1], end: [0, 1] },
+  ],
+};
+
+const ResponsiveGrid = ({ children, areas, ...props }) => {
+  const size = useContext(ResponsiveContext);
+  return (
+    <Grid areas={areas[size]} {...props}>
+      {children}
+    </Grid>
+  );
+};
+
 const Login = () => {
   const [loginData, setLoginData] = useState(defaultLoginData);
   const [register, setRegister] = useState(false);
+  const size = useContext(ResponsiveContext);
+
   const { user, loading, error, login, signOut } = useContext(AuthContext);
 
   let history = useHistory();
@@ -36,9 +89,40 @@ const Login = () => {
       titleBackground='light-1'
       login
     >
-      <Box width='100%' direction='row' justify='around'>
-        <Box direction='column' gap='small'>
+      <ResponsiveGrid
+        rows={
+          size === 'small'
+            ? ['auto', 'auto', 'auto']
+            : size === 'medium'
+            ? ['auto', 'auto']
+            : size === 'large'
+            ? ['auto', 'auto']
+            : size === 'xlarge'
+            ? ['auto']
+            : null
+        }
+        columns={
+          size === 'small'
+            ? ['auto', 'auto']
+            : size === 'medium'
+            ? ['30%', '60%']
+            : size === 'large'
+            ? ['30%', '60%']
+            : size === 'xlarge'
+            ? ['auto']
+            : null
+        }
+        margin='small'
+        areas={areas}
+        gap='small'
+        // fill='vertical'
+        justifyContent='center'
+        alignContent='center'
+        // alignContent='center'
+      >
+        <Box gridArea='form' alignSelf='start'>
           <EntryForm
+            fill='horizontal'
             register={register}
             login={login}
             signOut={signOut}
@@ -49,40 +133,64 @@ const Login = () => {
             setRegister={setRegister}
             history={history}
           />
+        </Box>
+        <Box
+          pad='small'
+          background='light-1'
+          elevation='small'
+          gridArea='print'
+          // align='center'
+          alignSelf='start'
+        >
+          <LinkWrapper href='https://docs.google.com/forms/d/e/1FAIpQLSeabZ7p0goqPk7CJubW7yzSESQC2FxtX9JAp2FSESGpeCTV-Q/viewform'>
+            <PrintButton label='Wydrukuj ankietę' />
+          </LinkWrapper>
+          <Text margin='small'>
+            Aby wydrukować ankietę kliknij w przycisk powyżej, a następnie na
+            kalwiaturze CTRL+P, lub prawy przycisk myszy i wybierz opcję
+            "Drukuj"
+          </Text>
+        </Box>
+        {size === 'small' ? (
           <Box
-            width='medium'
             pad='small'
-            margin='small'
             background='light-1'
             elevation='small'
+            gridArea='about'
+            alignSelf='end'
           >
-            <LinkWrapper href='https://docs.google.com/forms/d/e/1FAIpQLSeabZ7p0goqPk7CJubW7yzSESQC2FxtX9JAp2FSESGpeCTV-Q/viewform'>
-              <PrintButton label='Wydrukuj ankietę' />
-            </LinkWrapper>
-            <Text margin='small'>
-              Aby wydrukować ankietę kliknij w przycisk powyżej, a następnie na
-              kalwiaturze CTRL+P, lub prawy przycisk myszy i wybierz opcję
-              "Drukuj"
-            </Text>
+            <DropButton
+              label='Więcej o ankiecie'
+              dropAlign={{ top: 'bottom' }}
+              dropContent={
+                <>
+                  {ANKIETA.map((el) => (
+                    <Text key={el} margin={{ bottom: 'small' }} size='16px'>
+                      {el}
+                    </Text>
+                  ))}
+                </>
+              }
+            />
           </Box>
-        </Box>
-
-        <Box
-          width='40%'
-          overflow='auto'
-          background='light-1'
-          pad='small'
-          margin='small'
-          elevation='small'
-        >
-          {ANKIETA.map((el) => (
-            <Text key={el} margin={{ bottom: 'small' }} size='16px'>
-              {el}
-            </Text>
-          ))}
-          <Text></Text>
-        </Box>
-      </Box>
+        ) : (
+          <Box
+            height='85vh'
+            overflow='auto'
+            background='light-1'
+            pad='small'
+            elevation='small'
+            gridArea='about'
+            alignSelf='start'
+          >
+            {ANKIETA.map((el) => (
+              <Text key={el} margin={{ bottom: 'small' }} size='16px'>
+                {el}
+              </Text>
+            ))}
+          </Box>
+        )}
+      </ResponsiveGrid>
     </Layout>
   );
 };

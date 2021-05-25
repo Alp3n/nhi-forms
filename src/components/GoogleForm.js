@@ -35,7 +35,7 @@ const defaultValue = {
   12: '',
 };
 
-const GoogleForm = ({ handleChange }) => {
+const GoogleForm = ({ handleChange, mobile }) => {
   const [value, setValue] = useState(defaultValue);
   const { user } = useContext(AuthContext);
 
@@ -130,7 +130,7 @@ const GoogleForm = ({ handleChange }) => {
           label='4. Ile razy pacjent wykonał badania nasienia w czasie starań o ciążę?'
           required
         >
-          <TextInput name='4' placeholder='Twoja odpowiedź' />
+          <TextInput name='4' placeholder='Twoja odpowiedź' type='number' />
         </FormField>
         <FormField name='4.1' label='4.1 Jeżli wykonywał, to jakie badania?'>
           <CheckBoxGroup
@@ -277,7 +277,12 @@ const GoogleForm = ({ handleChange }) => {
           <TextInput name='12' placeholder='Twoja odpowiedź' />
         </FormField>
         <Box margin='medium'>
-          <Button type='submit' label='Prześlij' primary />
+          <Button
+            type='submit'
+            label='Prześlij'
+            primary
+            margin={{ bottom: 'large' }}
+          />
         </Box>
       </Form>
     </Box>

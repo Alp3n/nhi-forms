@@ -21,4 +21,14 @@ export const lightTheme = deepMerge(grommet, {
       requiredIndicator: true,
     },
   },
+
+  tab: {
+    pad: 'small',
+    margin: { bottom: 'none' },
+    active: {
+      background: {
+        color: 'light-2',
+      },
+    },
+  },
 });

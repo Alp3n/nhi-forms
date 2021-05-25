@@ -29,6 +29,7 @@ const EntryForm = ({
   setRegister,
   history,
   register,
+  ...props
 }) => {
   const [registerData, setRegisterData] = useState(defaultRegisterData);
   const [createUserWithEmailAndPassword] = useCreateUserWithEmailAndPassword(
@@ -50,14 +51,7 @@ const EntryForm = ({
   };
 
   return (
-    <Card
-      height={register ? '450px' : 'medium'}
-      width='medium'
-      background='light-1'
-      round='none'
-      margin='small'
-      alignSelf='center'
-    >
+    <Card background='light-1' round='none' alignSelf='center' {...props}>
       <CardBody pad='small' gap='small'>
         <Text size='large' weight='bold' margin='xsmall'>
           {register ? 'Zarejestruj się' : 'Zaloguj się'}

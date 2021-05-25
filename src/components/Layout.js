@@ -1,51 +1,55 @@
 import { useContext } from 'react';
 import { useHistory } from 'react-router-dom';
-import { Box, Text, Layer } from 'grommet';
+import { Box, Text, Layer, Header } from 'grommet';
 import styled from 'styled-components';
 import { AuthContext } from '../context/authContext';
 import { ModalContext } from '../context/modalContext';
 
-const Layout = ({ children, center, background, titleBackground, title, login }) => {
+const Layout = ({
+  children,
+  center,
+  background,
+  titleBackground,
+  title,
+  login,
+}) => {
   const { user, logout } = useContext(AuthContext);
   const { showModal, modal, closeModal } = useContext(ModalContext);
   let history = useHistory();
   return (
-    <StyledWrapper fill >
+    <StyledWrapper background={background} fill='vertical'>
       {title ? (
-        <Box
-          direction='row'
+        <Header
           pad='small'
-          align='center'
-          justify='between'
-          background={titleBackground}
-          margin={{horizontal: 'small'}}
+          margin={{ bottom: 'medium' }}
+          background='light-1'
+          elevation='small'
         >
-          <Box direction='row' align='baseline' gap='large'>
+          <Box
+            direction='row'
+            align='baseline'
+            gap='large'
+            margin={{ horizontal: 'small' }}
+          >
             <Text weight='bold' size='large'>
               {title}
             </Text>
-            {login ? null:<Text>Witaj {user.displayName}</Text> }
+            {/* {login ? null : <Text>Witaj {user.displayName}</Text>} */}
           </Box>
 
           {user ? (
-            <Box onClick={() => logout(history)}>
+            <Box
+              onClick={() => logout(history)}
+              margin={{ horizontal: 'small' }}
+            >
               <Text> Wyloguj</Text>
             </Box>
           ) : null}
-        </Box>
+        </Header>
       ) : null}
-
-      <Box
-        fill='vertical'
-        // height={center ? '100%' : null}
-        align={center ? 'center' : null}
-        justify={center ? 'center' : null}
-        background={background}
-      >
-        {children}
-      </Box>
+      {children}
       {showModal && (
-        <Layer  onClickOutside={closeModal} onEsc={closeModal}>
+        <Layer onClickOutside={closeModal} onEsc={closeModal}>
           {modal}
         </Layer>
       )}
@@ -56,5 +60,5 @@ const Layout = ({ children, center, background, titleBackground, title, login })
 export default Layout;
 
 const StyledWrapper = styled(Box)`
-  position: absolute;
+  /* position: absolute; */
 `;

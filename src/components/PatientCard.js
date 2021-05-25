@@ -1,6 +1,6 @@
 import { useEffect, useState, useContext } from 'react';
 import { ModalContext } from '../context/modalContext';
-import { Box, Button, CheckBoxGroup, Text } from 'grommet';
+import { Box, Button, CheckBoxGroup, Text, ResponsiveContext } from 'grommet';
 import { ContactInfo } from 'grommet-icons';
 import { SHEET_URL } from '../utils/consts';
 import PatientDetails from './PatientDetails';
@@ -11,6 +11,7 @@ const PatientCard = ({ item }) => {
   const [changed, setChanged] = useState();
 
   const { openModal } = useContext(ModalContext);
+  const size = useContext(ResponsiveContext);
 
   const handleChange = (value) => {
     setValue(value);
@@ -77,16 +78,20 @@ const PatientCard = ({ item }) => {
         pad='medium'
         border={{ side: 'bottom' }}
       >
-        <Box direction='row' gap='medium' align='center'>
+        <Box
+          direction={size === 'small' ? 'column' : 'row'}
+          gap='medium'
+          align='start'
+        >
           <Text>
             Inicjały: <Text weight='bold'>{item['1. Inicjały pacjenta:']}</Text>
           </Text>
           <Text>
             Wiek: <Text weight='bold'>{item['2. Wiek pacjenta:']}</Text>
           </Text>
-          <Text>
+          {/* <Text>
             Utworzono: <Text weight='bold'>{item['Sygnatura czasowa']}</Text>
-          </Text>
+          </Text> */}
         </Box>
         <Button
           label='Szczegóły'

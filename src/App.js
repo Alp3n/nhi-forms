@@ -8,6 +8,7 @@ import {
 } from 'react-router-dom';
 
 import { Grommet } from 'grommet';
+import './App.css';
 import { lightTheme } from './myTheme';
 import Login from './pages/Login';
 import Dashboard from './pages/Dashboard';
@@ -16,7 +17,7 @@ import ModalContextProvider from './context/modalContext';
 import ProtectedRoute from './components/ProtectedRoute';
 function App() {
   return (
-    <Grommet theme={lightTheme}>
+    <Grommet theme={lightTheme} full>
       <AuthContextProvider>
         <ModalContextProvider>
           <Router>
