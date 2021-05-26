@@ -101,17 +101,19 @@ const PatientCard = ({ item }) => {
         />
       </Box>
       <Box
-        direction='row'
+        direction='column'
         pad='medium'
         justify='around'
         align='center'
         overflow='auto'
+        gap='small'
       >
-        <Text margin={{ right: 'small' }}>Opakowanie</Text>
+        <Text weight='bold'>Rekomendowana liczba opakowań</Text>
         <CheckBoxGroup
           direction='row'
           value={value}
           onChange={({ value }) => handleChange(value)}
+          // options={['1', '2', '3', 'Wizyta kontrolna - ankieta', '5', 'Kontynuacja leczenia']}
           options={['Pierwsze', 'Drugie', 'Trzecie', 'Czwarte', 'Piąte']}
           pad={{ right: 'small' }}
         />

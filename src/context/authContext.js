@@ -8,7 +8,16 @@ const AuthContextProvider = (props) => {
   const [user, loading, error] = useAuthState(firebaseObj.auth());
 
   const login = (email, password, history) => {
-    firebaseObj.auth().signInWithEmailAndPassword(email, password);
+    firebaseObj
+      .auth()
+      .signInWithEmailAndPassword(email, password)
+      .catch((error) => {
+        return alert(
+          error.code === 'auth/user-not-found'
+            ? 'Nie ma takiego użytkownika'
+            : 'Wystąpił błąd, sprawdź login i hasło'
+        );
+      });
     history.replace('/dashboard');
   };
   const logout = (history) => {

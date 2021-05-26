@@ -3,14 +3,7 @@ import { AuthContext } from '../context/authContext';
 import { useFetch } from '../hooks/useFetch';
 import { SEARCH_URL } from '../utils/consts';
 
-import {
-  Box,
-  Grid,
-  InfiniteScroll,
-  ResponsiveContext,
-  Tab,
-  Tabs,
-} from 'grommet';
+import { Box, Grid, ResponsiveContext, Spinner, Tab, Tabs } from 'grommet';
 import Layout from '../components/Layout';
 import PatientCard from '../components/PatientCard';
 import GoogleForm from '../components/GoogleForm';
@@ -19,8 +12,8 @@ import PatientList from '../components/PatientList';
 
 const Dashboard = () => {
   const [change, setChange] = useState();
-  // const [loading, setLoading] = useState(false);
   const { user } = useContext(AuthContext);
+  // const { status, patients, fetchData } = useContext(PatientContext);
   const size = useContext(ResponsiveContext);
   const { status, data } = useFetch(SEARCH_URL + user.email, change);
 
@@ -28,10 +21,7 @@ const Dashboard = () => {
     setChange(id);
   };
 
-  // const handleLoading = (bool) => {
-  //   setLoading(bool);
-  // };
-
+  console.log('GET DATA', data);
   return (
     <Layout
       title='NHI Formularze'
@@ -49,13 +39,19 @@ const Dashboard = () => {
               </Box>
             </Tab>
             <Tab title='Wyniki'>
-              <PatientList resultCount={data.length}>
-                {status === 'fetched' ? (
-                  <InfiniteScroll items={data}>
-                    {(item) => <PatientCard key={item['row_id']} item={item} />}
-                  </InfiniteScroll>
-                ) : null}
-              </PatientList>
+              <Box height='100%' overflow='auto'>
+                <PatientList
+                  resultCount={status === 'fetched' ? data.length : null}
+                >
+                  {status === 'fetched' ? (
+                    data.map((item) => (
+                      <PatientCard key={item['row_id']} item={item} />
+                    ))
+                  ) : (
+                    <Spinner size='large' />
+                  )}
+                </PatientList>
+              </Box>
             </Tab>
           </Tabs>
         </Box>
@@ -74,12 +70,14 @@ const Dashboard = () => {
             <GoogleForm handleChange={handleChange} />
           </ActiveForm>
 
-          <PatientList resultCount={data.length}>
+          <PatientList resultCount={status === 'fetched' ? data.length : null}>
             {status === 'fetched' ? (
-              <InfiniteScroll items={data}>
-                {(item) => <PatientCard key={item['row_id']} item={item} />}
-              </InfiniteScroll>
-            ) : null}
+              data.map((item) => (
+                <PatientCard key={item['row_id']} item={item} />
+              ))
+            ) : (
+              <Spinner size='large' />
+            )}
           </PatientList>
         </Grid>
       )}

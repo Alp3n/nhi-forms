@@ -35,9 +35,11 @@ const defaultValue = {
   12: '',
 };
 
-const GoogleForm = ({ handleChange, mobile }) => {
+const GoogleForm = ({ handleChange, handleLoading }) => {
   const [value, setValue] = useState(defaultValue);
+  const [response, setResponse] = useState('');
   const { user } = useContext(AuthContext);
+  console.log('FORM VALUES', value);
 
   useEffect(() => {
     setValue((prev) => ({
@@ -45,7 +47,7 @@ const GoogleForm = ({ handleChange, mobile }) => {
       email: user.email,
       name: user.displayName,
     }));
-  }, [user]);
+  }, [user, response]);
 
   // Function chaning empty values to "-"
   const transformValue = (value) => {
@@ -92,15 +94,25 @@ const GoogleForm = ({ handleChange, mobile }) => {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify(data),
-    });
-    return response.json();
+    })
+      .then((data) => {
+        if (data.ok) {
+          setTimeout(() => handleChange(Math.random()), 5000);
+          setResponse(data);
+          return alert('Przesłano ankietę');
+        }
+        return response.json();
+      })
+      .catch((error) => {
+        console.log(error);
+        setResponse(error);
+        return alert('Wystąpił jakiś problem');
+      });
   };
 
   const handleSubmit = () => {
     fetchPOST(SHEET_URL, transformBody(value));
     setValue(defaultValue);
-    alert('Przesłano ankietę');
-    setTimeout(() => handleChange(Math.random()), 5000);
   };
 
   return (

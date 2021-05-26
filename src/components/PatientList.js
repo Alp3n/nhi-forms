@@ -12,8 +12,13 @@ const PatientList = ({ children, resultCount }) => {
       >
         <Text size='large'>Wyniki pacjentów: {resultCount}</Text>
       </Box>
-      <Box overflow='auto' pad={{ vertical: 'medium' }}>
-        <Grid pad={{ horizontal: 'medium' }} gap='small'>
+      <Box height='100%' overflow='auto' pad={{ vertical: 'medium' }}>
+        <Grid
+          pad={{ horizontal: 'medium' }}
+          gap='small'
+          height='100%'
+          overflow='auto'
+        >
           {children}
         </Grid>
       </Box>

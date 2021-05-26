@@ -112,7 +112,6 @@ const Login = () => {
             ? ['auto']
             : null
         }
-        margin='small'
         areas={areas}
         gap='small'
         // fill='vertical'
