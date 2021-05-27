@@ -1,7 +1,6 @@
 import { useContext } from 'react';
 import { useHistory } from 'react-router-dom';
 import { Box, Text, Layer, Header } from 'grommet';
-import styled from 'styled-components';
 import { AuthContext } from '../context/authContext';
 import { ModalContext } from '../context/modalContext';
 
@@ -17,7 +16,7 @@ const Layout = ({
   const { showModal, modal, closeModal } = useContext(ModalContext);
   let history = useHistory();
   return (
-    <StyledWrapper background={background} fill='vertical'>
+    <Box background={background} fill='vertical'>
       {title ? (
         <Header
           pad='small'
@@ -53,12 +52,8 @@ const Layout = ({
           {modal}
         </Layer>
       )}
-    </StyledWrapper>
+    </Box>
   );
 };
 
 export default Layout;
-
-const StyledWrapper = styled(Box)`
-  /* position: absolute; */
-`;

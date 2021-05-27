@@ -12,6 +12,7 @@ import {
   Text,
   Spinner,
 } from 'grommet';
+import { useAlert } from 'react-alert';
 
 const defaultRegisterData = {
   name: '',
@@ -35,6 +36,7 @@ const EntryForm = ({
   const [createUserWithEmailAndPassword] = useCreateUserWithEmailAndPassword(
     firebaseObj.auth() /* ,{sendEmailVerification : true} */
   );
+  const myAlert = useAlert();
 
   const handleRegister = (email, password, displayName) => {
     createUserWithEmailAndPassword(email, password)
@@ -45,9 +47,12 @@ const EntryForm = ({
         });
         firebaseObj.auth().signOut();
       })
-      .then(alert('Zarejestrowano pomyślnie'))
-      .then(setRegister(false))
-      .catch((error) => console.log(error));
+      .then(() => myAlert.success('Zarejestrowano pomyślnie'))
+      .then(() => setRegister(false))
+      .catch((error) => {
+        myAlert.error('Wystąpił błąd przy rejestracji');
+        console.log(error);
+      });
   };
 
   return (
@@ -57,7 +62,7 @@ const EntryForm = ({
           {register ? 'Zarejestruj się' : 'Zaloguj się'}
         </Text>
         {loading ? (
-          <Spinner />
+          <Spinner message='Trwa logowanie' />
         ) : (
           <Form
             value={register ? registerData : loginData}

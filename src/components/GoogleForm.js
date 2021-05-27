@@ -10,6 +10,7 @@ import {
 import React, { useState, useEffect, useContext } from 'react';
 import { AuthContext } from '../context/authContext';
 import { SHEET_URL } from '../utils/consts';
+import { useAlert } from 'react-alert';
 
 const defaultValue = {
   createdAt: '',
@@ -35,11 +36,12 @@ const defaultValue = {
   12: '',
 };
 
-const GoogleForm = ({ handleChange, handleLoading }) => {
+const GoogleForm = ({ response, setResponse }) => {
   const [value, setValue] = useState(defaultValue);
-  const [response, setResponse] = useState('');
+  const [value5, setValue5] = useState('');
+  const [value6, setValue6] = useState('');
   const { user } = useContext(AuthContext);
-  console.log('FORM VALUES', value);
+  const myAlert = useAlert();
 
   useEffect(() => {
     setValue((prev) => ({
@@ -53,7 +55,6 @@ const GoogleForm = ({ handleChange, handleLoading }) => {
   const transformValue = (value) => {
     return value === '' ? '-' : value;
   };
-
   // Function transforming data to match API model
   const transformBody = (value) => {
     let tempBody = [
@@ -66,8 +67,8 @@ const GoogleForm = ({ handleChange, handleLoading }) => {
         transformValue(value[3]),
         transformValue(value[4]),
         transformValue(value[4.1].toString()),
-        transformValue(value[5].toString()),
-        transformValue(value[6].toString()),
+        transformValue(value[5].toString().concat(',', value5)),
+        transformValue(value[6].toString().concat(',', value6)),
         transformValue(value[7]),
         transformValue(value[8]),
         transformValue(value[8.1]),
@@ -85,29 +86,27 @@ const GoogleForm = ({ handleChange, handleLoading }) => {
     return tempBody;
   };
 
-  //Fetch for POST method
-  const fetchPOST = async (url, data) => {
-    const response = await fetch(url, {
-      method: 'POST',
-      mode: 'cors',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(data),
-    })
-      .then((data) => {
-        if (data.ok) {
-          setTimeout(() => handleChange(Math.random()), 5000);
-          setResponse(data);
-          return alert('Przesłano ankietę');
-        }
-        return response.json();
-      })
-      .catch((error) => {
-        console.log(error);
-        setResponse(error);
-        return alert('Wystąpił jakiś problem');
+  const fetchPOST = async (url, body) => {
+    try {
+      const response = await fetch(url, {
+        method: 'POST',
+        mode: 'cors',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(body),
       });
+      const data = await response.json();
+      setResponse(data);
+      if (data.message === 'Successfully Inserted') {
+        myAlert.success('Pomyślnie przesłano ankietę');
+      } else {
+        myAlert.error('Wystąpił problem z przesłaniem ankiety');
+      }
+    } catch (err) {
+      setResponse(err);
+      myAlert.error('Wystąpił jakiś problem');
+    }
   };
 
   const handleSubmit = () => {
@@ -124,17 +123,33 @@ const GoogleForm = ({ handleChange, handleLoading }) => {
         messages={{ required: 'Wymagane' }}
       >
         <FormField name='1' label='1. Inicjały pacjenta' required>
-          <TextInput name='1' placeholder='Twoja odpowiedź' />
+          <TextInput
+            name='1'
+            placeholder='Twoja odpowiedź'
+            minLength={1}
+            maxLength={3}
+          />
         </FormField>
         <FormField name='2' label='2. Wiek pacjenta:' required>
-          <TextInput name='2' placeholder='Twoja odpowiedź' type='number' />
+          <TextInput
+            name='2'
+            placeholder='Twoja odpowiedź'
+            type='number'
+            min={16}
+            max={100}
+          />
         </FormField>
         <FormField
           name='3'
           label='3. Jak długo pacjent stara się o potomstwo? (w miesiącach)'
           required
         >
-          <TextInput name='3' placeholder='Twoja odpowiedź' type='number' />
+          <TextInput
+            name='3'
+            placeholder='Twoja odpowiedź'
+            type='number'
+            min={0}
+          />
         </FormField>
         <FormField
           name='4'
@@ -169,7 +184,12 @@ const GoogleForm = ({ handleChange, handleLoading }) => {
               'Onkologiczne',
             ]}
           />
-          <TextInput name='5' placeholder='Inne' />
+          <TextInput
+            name='value5'
+            value={value5}
+            onChange={(event) => setValue5(event.target.value)}
+            placeholder='Inne'
+          />
         </FormField>
         <FormField
           name='6'
@@ -185,7 +205,12 @@ const GoogleForm = ({ handleChange, handleLoading }) => {
               'Niedrożność jajowodów',
             ]}
           />
-          <TextInput name='6' placeholder='Inne' />
+          <TextInput
+            name='value6'
+            value={value6}
+            onChange={(event) => setValue6(event.target.value)}
+            placeholder='Inne'
+          />
         </FormField>
         <FormField
           name='7'

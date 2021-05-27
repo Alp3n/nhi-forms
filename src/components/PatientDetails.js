@@ -16,14 +16,17 @@ const PatientDetails = ({ item }) => {
   const { closeModal } = useContext(ModalContext);
   return (
     <Box elevation='small' background='light-1' direction='column'>
-      <Box direction='row' justify='end' background='light-3' pad='medium'>
-        <Button
-          onClick={() => closeModal()}
-          label='Zamknij'
-          icon={<Close />}
-          plain
-          reverse
-        />
+      <Box
+        direction='row'
+        align='center'
+        justify='between'
+        background='portrait-2'
+        pad='medium'
+      >
+        <Text weight='bold' size='large'>
+          Szczegóły pacjenta
+        </Text>
+        <Button onClick={() => closeModal()} icon={<Close />} plain reverse />
       </Box>
       <Box pad='medium' height='100%' overflow='auto'>
         <Grid>

@@ -3,7 +3,6 @@ import { ANKIETA } from '../utils/consts';
 import {
   Box,
   Button,
-  Spinner,
   Text,
   ResponsiveContext,
   Grid,
@@ -77,10 +76,6 @@ const Login = () => {
     return <Redirect to='/dashboard' />;
   }
 
-  if (loading) {
-    return <Spinner size='large' />;
-  }
-
   return (
     <Layout
       center
@@ -114,10 +109,10 @@ const Login = () => {
         }
         areas={areas}
         gap='small'
-        // fill='vertical'
+
         justifyContent='center'
         alignContent='center'
-        // alignContent='center'
+
       >
         <Box gridArea='form' alignSelf='start'>
           <EntryForm

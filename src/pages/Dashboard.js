@@ -11,17 +11,10 @@ import ActiveForm from '../components/ActiveForm';
 import PatientList from '../components/PatientList';
 
 const Dashboard = () => {
-  const [change, setChange] = useState();
+  const [response, setResponse] = useState({ response: 'nothing' });
   const { user } = useContext(AuthContext);
-  // const { status, patients, fetchData } = useContext(PatientContext);
   const size = useContext(ResponsiveContext);
-  const { status, data } = useFetch(SEARCH_URL + user.email, change);
-
-  const handleChange = (id) => {
-    setChange(id);
-  };
-
-  console.log('GET DATA', data);
+  const { status, data } = useFetch(SEARCH_URL + user.email, response);
   return (
     <Layout
       title='NHI Formularze'
@@ -34,7 +27,7 @@ const Dashboard = () => {
             <Tab title='Ankieta'>
               <Box height='100%' overflow='auto'>
                 <ActiveForm>
-                  <GoogleForm handleChange={handleChange} />
+                  <GoogleForm response={response} setResponse={setResponse} />
                 </ActiveForm>
               </Box>
             </Tab>
@@ -67,7 +60,7 @@ const Dashboard = () => {
           margin='medium'
         >
           <ActiveForm>
-            <GoogleForm handleChange={handleChange} />
+            <GoogleForm response={response} setResponse={setResponse} />
           </ActiveForm>
 
           <PatientList resultCount={status === 'fetched' ? data.length : null}>

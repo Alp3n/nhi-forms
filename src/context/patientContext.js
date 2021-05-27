@@ -1,9 +1,10 @@
 import React, { createContext, useState } from 'react';
 
-export const STATUS = {
+export const STATUS_TYPES = {
   idle: 'idle',
   fetching: 'fetching',
   fetched: 'fetched',
+  empty: 'empty',
   error: 'error',
 };
 
@@ -11,14 +12,10 @@ export const PatientContext = createContext();
 
 const PatientContextProvider = (props) => {
   const [patients, setPatients] = useState('Brak wyników');
-  const [status, setStatus] = useState(STATUS.idle);
-
-  const addToPatients = (data) => {
-    setPatients(data);
-  };
+  const [status, setStatus] = useState(STATUS_TYPES.idle);
 
   const fetchData = async (url) => {
-    setStatus(STATUS.fetching);
+    setStatus(STATUS_TYPES.fetching);
     try {
       const response = await fetch(url, {});
       const data = await response.json();
@@ -27,13 +24,20 @@ const PatientContextProvider = (props) => {
       setStatus('fetched');
     } catch (err) {
       setPatients('Wystąpił problem');
-      setStatus(STATUS.error);
+      setStatus(STATUS_TYPES.error);
     }
+  };
+
+  const getPatients = (url) => {
+    if (!url) {
+      return;
+    }
+    fetchData(url)
   };
 
   return (
     <PatientContext.Provider
-      value={{ status, patients, addToPatients, fetchData }}
+      value={{ status, patients, getPatients }}
     >
       {props.children}
     </PatientContext.Provider>
