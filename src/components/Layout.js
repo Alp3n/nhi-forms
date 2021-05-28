@@ -3,11 +3,24 @@ import { useHistory } from 'react-router-dom';
 import { Box, Text, Layer, Header, Button } from 'grommet';
 import { AuthContext } from '../context/authContext';
 import { ModalContext } from '../context/modalContext';
-import PWAInstallerPrompt from 'react-pwa-installer-prompt';
-const Layout = ({ children, background, title, install }) => {
+import { useReactPWAInstall } from 'react-pwa-install';
+import tenfertilLogo from '../img/icon-192x192.png';
+
+const Layout = ({ children, background, title }) => {
   const { user, logout } = useContext(AuthContext);
   const { showModal, modal, closeModal } = useContext(ModalContext);
+  const { pwaInstall, supported, isInstalled } = useReactPWAInstall();
   let history = useHistory();
+
+  const handleInstall = () => {
+    pwaInstall({
+      title: 'Zainstaluj NHI Formularze',
+      logo: tenfertilLogo,
+      description:
+        'Zainstalowanie aplikacji NHI Formularze - Ankieta TenFertil ON, umożliwia łatwiejszy dostęp do aplikacji z pulpitu, oraz wygodniejszą obsługę jak każda inna mobilna aplikacja.',
+    });
+  };
+
   return (
     <Box background={background} fill='vertical'>
       {title ? (
@@ -37,12 +50,10 @@ const Layout = ({ children, background, title, install }) => {
               <Text> Wyloguj</Text>
             </Box>
           ) : (
-            <PWAInstallerPrompt
-              render={({ onClick }) => (
-                <Button label='Zainstaluj' onClick={onClick} />
-              )}
-              callback={(data) => console.log(data)}
-            />
+            supported() &&
+            !isInstalled() && (
+              <Button label='Zainstaluj' onClick={handleInstall} />
+            )
           )}
         </Header>
       ) : null}
