@@ -86,6 +86,7 @@ const PatientCard = ({ item }) => {
         const response = await fetch(url, {
           method: 'PUT',
           mode: 'cors',
+          timeout: '0',
           headers: {
             'Content-Type': 'application/json',
           },
@@ -117,7 +118,6 @@ const PatientCard = ({ item }) => {
     fetchPUT(SHEET_URL, body);
     setChanged(false);
   };
-
 
   return (
     <Box background='light-2' elevation='small' round>

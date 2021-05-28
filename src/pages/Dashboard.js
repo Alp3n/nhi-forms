@@ -1,7 +1,7 @@
 import React, { useState, useContext } from 'react';
 import { AuthContext } from '../context/authContext';
 import useFetch from 'react-fetch-hook';
-// import { useFetch } from '../hooks/useFetch';
+
 import { SEARCH_URL } from '../utils/consts';
 
 import { Box, Grid, ResponsiveContext, Spinner, Tab, Tabs } from 'grommet';
@@ -15,8 +15,8 @@ const Dashboard = () => {
   const [response, setResponse] = useState(true);
   const { user } = useContext(AuthContext);
   const size = useContext(ResponsiveContext);
-
-  const { isLoading, data } = useFetch(SEARCH_URL + user.email, {
+  const URL = SEARCH_URL + user.email;
+  const { isLoading, data } = useFetch(URL, {
     depends: [response],
   });
 

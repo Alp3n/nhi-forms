@@ -15,7 +15,7 @@ const PatientList = ({ children }) => {
       </Box>
       <Box height='100%' overflow='auto' pad={{ vertical: 'medium' }}>
         <Text alignSelf='center' margin='small' size='xsmall'>
-          Lista odświeża się po 10 sekundach od przesłania ankiety
+          Lista odświeża się po 2 sekundach od przesłania ankiety
         </Text>
         <Grid
           pad={{ horizontal: 'medium' }}

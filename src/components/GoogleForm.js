@@ -93,26 +93,28 @@ const GoogleForm = ({ response, setResponse }) => {
       const response = await fetch(url, {
         method: 'POST',
         mode: 'cors',
+        timeout: '0',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify(body),
       });
       const data = await response.json();
-      await setResponse(false);
+
       if (data.message === 'Successfully Inserted') {
-        return myAlert.success('Pomyślnie przesłano ankietę');
+        setResponse(false);
+        myAlert.success('Pomyślnie przesłano ankietę');
       } else {
-        return myAlert.error('Wystąpił problem z przesłaniem ankiety');
+        myAlert.error('Wystąpił problem z przesłaniem ankiety');
       }
     } catch (err) {
-      return myAlert.error('Wystąpił jakiś problem');
+      myAlert.error('Wystąpił jakiś problem');
     }
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     fetchPOST(SHEET_URL, transformBody(value)).then(() =>
-      delay(10000).then(() => setResponse(true))
+      delay(2000).then(() => setResponse(true))
     );
     setValue(defaultValue);
   };

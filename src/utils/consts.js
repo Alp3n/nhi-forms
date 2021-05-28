@@ -2,10 +2,13 @@
 
 // GET/POST/PUT/DELETE
 export const SHEET_URL =
-  'https://v1.nocodeapi.com/nhinstituteapi/google_sheets/wJbkgRsKofvdzpmu?tabId=FormOne';
+  'https://v1.nocodeapi.com/nhinstituteapi/google_sheets/wJbkgRsKofvdzpmu?cacheTime=0&tabId=FormOne';
 
 //GET Search
-export const SEARCH_URL = `https://v1.nocodeapi.com/nhinstituteapi/google_sheets/wJbkgRsKofvdzpmu/search?tabId=FormOne&searchKey=Adres e-mail&searchValue=`;
+export const SEARCH_URL = `https://v1.nocodeapi.com/nhinstituteapi/google_sheets/wJbkgRsKofvdzpmu/search?cacheTime=0&tabId=FormOne&searchKey=Adres e-mail&searchValue=`;
+
+//No cache param
+export const NO_CACHE = '?cacheTime=0';
 
 export const ANKIETA = [
   'Szanowni Państwo,',
