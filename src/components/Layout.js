@@ -1,17 +1,10 @@
 import { useContext } from 'react';
 import { useHistory } from 'react-router-dom';
-import { Box, Text, Layer, Header } from 'grommet';
+import { Box, Text, Layer, Header, Button } from 'grommet';
 import { AuthContext } from '../context/authContext';
 import { ModalContext } from '../context/modalContext';
-
-const Layout = ({
-  children,
-  center,
-  background,
-  titleBackground,
-  title,
-  login,
-}) => {
+import PWAInstallerPrompt from 'react-pwa-installer-prompt';
+const Layout = ({ children, background, title, install }) => {
   const { user, logout } = useContext(AuthContext);
   const { showModal, modal, closeModal } = useContext(ModalContext);
   let history = useHistory();
@@ -43,7 +36,14 @@ const Layout = ({
             >
               <Text> Wyloguj</Text>
             </Box>
-          ) : null}
+          ) : (
+            <PWAInstallerPrompt
+              render={({ onClick }) => (
+                <Button label='Zainstaluj' onClick={onClick} />
+              )}
+              callback={(data) => console.log(data)}
+            />
+          )}
         </Header>
       ) : null}
       {children}
