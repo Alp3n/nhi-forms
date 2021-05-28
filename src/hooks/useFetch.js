@@ -9,10 +9,16 @@ export const STATUS_TYPES = {
   error: 'error',
 };
 
+const defaultData = [
+  {
+    row_id: 0,
+  },
+];
+
 export const useFetch = (url, dependency) => {
   const [status, setStatus] = useState(STATUS_TYPES.idle); //idle, fetching, fetched, empty, error
-  const [data, setData] = useState([]);
-
+  const [data, setData] = useState(defaultData);
+  console.log(dependency);
   const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
   useEffect(() => {
@@ -35,18 +41,24 @@ export const useFetch = (url, dependency) => {
           // mode: 'cors',
         });
         const data = await response.json();
-        setStatus('fetched');
-        setData(data);
+        if (data.length > 0) {
+
+          setData(data);
+        } else {
+          setData(defaultData);
+        }
+        setStatus(STATUS_TYPES.fetched);
       } catch (err) {
+
         setStatus(STATUS_TYPES.error);
       }
     };
 
-    delay(10000).then(() => fetchData());
+    delay(5000).then(() => fetchData());
 
     return () => {
+      setData(defaultData);
       setStatus(STATUS_TYPES.idle);
-      setData([]);
     };
   }, [url, dependency]);
 

@@ -2,21 +2,21 @@ import React, { createContext } from 'react';
 
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { firebaseObj } from '../utils/firebase';
+import { useAlert } from 'react-alert';
 export const AuthContext = createContext();
 
 const AuthContextProvider = (props) => {
   const [user, loading, error] = useAuthState(firebaseObj.auth());
+  const myAlert = useAlert();
 
   const login = (email, password, history) => {
     firebaseObj
       .auth()
       .signInWithEmailAndPassword(email, password)
       .catch((error) => {
-        return alert(
-          error.code === 'auth/user-not-found'
-            ? 'Nie ma takiego użytkownika'
-            : 'Wystąpił błąd, sprawdź login i hasło'
-        );
+        return error.code === 'auth/user-not-found'
+          ? myAlert.error('Nie ma takiego użytkownika')
+          : myAlert.error('Wystąpił błąd, sprawdź login i hasło');
       });
     history.replace('/dashboard');
   };

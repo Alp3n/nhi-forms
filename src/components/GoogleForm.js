@@ -36,6 +36,8 @@ const defaultValue = {
   12: '',
 };
 
+const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+
 const GoogleForm = ({ response, setResponse }) => {
   const [value, setValue] = useState(defaultValue);
   const [value5, setValue5] = useState('');
@@ -97,20 +99,21 @@ const GoogleForm = ({ response, setResponse }) => {
         body: JSON.stringify(body),
       });
       const data = await response.json();
-      setResponse(data);
+      await setResponse(false);
       if (data.message === 'Successfully Inserted') {
-        myAlert.success('Pomyślnie przesłano ankietę');
+        return myAlert.success('Pomyślnie przesłano ankietę');
       } else {
-        myAlert.error('Wystąpił problem z przesłaniem ankiety');
+        return myAlert.error('Wystąpił problem z przesłaniem ankiety');
       }
     } catch (err) {
-      setResponse(err);
-      myAlert.error('Wystąpił jakiś problem');
+      return myAlert.error('Wystąpił jakiś problem');
     }
   };
 
   const handleSubmit = () => {
-    fetchPOST(SHEET_URL, transformBody(value));
+    fetchPOST(SHEET_URL, transformBody(value)).then(() =>
+      delay(10000).then(() => setResponse(true))
+    );
     setValue(defaultValue);
   };
 
@@ -157,7 +160,12 @@ const GoogleForm = ({ response, setResponse }) => {
           label='4. Ile razy pacjent wykonał badania nasienia w czasie starań o ciążę?'
           required
         >
-          <TextInput name='4' placeholder='Twoja odpowiedź' type='number' />
+          <TextInput
+            name='4'
+            placeholder='Twoja odpowiedź'
+            type='number'
+            min={0}
+          />
         </FormField>
         <FormField name='4.1' label='4.1 Jeżli wykonywał, to jakie badania?'>
           <CheckBoxGroup
@@ -185,7 +193,7 @@ const GoogleForm = ({ response, setResponse }) => {
             ]}
           />
           <TextInput
-            name='value5'
+            name='5'
             value={value5}
             onChange={(event) => setValue5(event.target.value)}
             placeholder='Inne'
@@ -206,7 +214,7 @@ const GoogleForm = ({ response, setResponse }) => {
             ]}
           />
           <TextInput
-            name='value6'
+            name='6'
             value={value6}
             onChange={(event) => setValue6(event.target.value)}
             placeholder='Inne'

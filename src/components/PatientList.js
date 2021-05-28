@@ -1,6 +1,6 @@
 import { Box, Text, Grid } from 'grommet';
 
-const PatientList = ({ children, resultCount }) => {
+const PatientList = ({ children }) => {
   return (
     <Box gridArea='table' background='light-1' elevation='small'>
       <Box
@@ -11,7 +11,7 @@ const PatientList = ({ children, resultCount }) => {
         elevation='small'
         style={{ zIndex: 3 }}
       >
-        <Text size='large'>Wyniki pacjentów: {resultCount}</Text>
+        <Text size='large'>Wyniki pacjentów</Text>
       </Box>
       <Box height='100%' overflow='auto' pad={{ vertical: 'medium' }}>
         <Text alignSelf='center' margin='small' size='xsmall'>

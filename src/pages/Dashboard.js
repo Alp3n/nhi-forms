@@ -1,6 +1,7 @@
 import React, { useState, useContext } from 'react';
 import { AuthContext } from '../context/authContext';
-import { useFetch } from '../hooks/useFetch';
+import useFetch from 'react-fetch-hook';
+// import { useFetch } from '../hooks/useFetch';
 import { SEARCH_URL } from '../utils/consts';
 
 import { Box, Grid, ResponsiveContext, Spinner, Tab, Tabs } from 'grommet';
@@ -11,10 +12,14 @@ import ActiveForm from '../components/ActiveForm';
 import PatientList from '../components/PatientList';
 
 const Dashboard = () => {
-  const [response, setResponse] = useState({ response: 'nothing' });
+  const [response, setResponse] = useState(true);
   const { user } = useContext(AuthContext);
   const size = useContext(ResponsiveContext);
-  const { status, data } = useFetch(SEARCH_URL + user.email, response);
+
+  const { isLoading, data } = useFetch(SEARCH_URL + user.email, {
+    depends: [response],
+  });
+
   return (
     <Layout
       title='NHI Formularze'
@@ -33,15 +38,14 @@ const Dashboard = () => {
             </Tab>
             <Tab title='Wyniki'>
               <Box height='100%' overflow='auto'>
-                <PatientList
-                  resultCount={status === 'fetched' ? data.length : null}
-                >
-                  {status === 'fetched' ? (
-                    data.map((item) => (
-                      <PatientCard key={item['row_id']} item={item} />
-                    ))
-                  ) : (
+                <PatientList>
+                  {isLoading ? (
                     <Spinner size='large' />
+                  ) : (
+                    data.map(
+                      (item) => <PatientCard key={item['row_id']} item={item} />
+                      // )
+                    )
                   )}
                 </PatientList>
               </Box>
@@ -63,13 +67,14 @@ const Dashboard = () => {
             <GoogleForm response={response} setResponse={setResponse} />
           </ActiveForm>
 
-          <PatientList resultCount={status === 'fetched' ? data.length : null}>
-            {status === 'fetched' ? (
-              data.map((item) => (
-                <PatientCard key={item['row_id']} item={item} />
-              ))
-            ) : (
+          <PatientList>
+            {isLoading ? (
               <Spinner size='large' />
+            ) : (
+              data.map(
+                (item) => <PatientCard key={item['row_id']} item={item} />
+                // )
+              )
             )}
           </PatientList>
         </Grid>

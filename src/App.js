@@ -28,10 +28,10 @@ const alertOptions = {
 function App() {
   return (
     <Grommet theme={lightTheme} full>
-      <AuthContextProvider>
-        <ModalContextProvider>
-          <PatientContextProvider>
-            <AlertProvider template={AlertTemplate} {...alertOptions}>
+      <AlertProvider template={AlertTemplate} {...alertOptions}>
+        <AuthContextProvider>
+          <ModalContextProvider>
+            <PatientContextProvider>
               <Router>
                 <Switch>
                   <Route path='/login' exact>
@@ -45,10 +45,10 @@ function App() {
                   </Route>
                 </Switch>
               </Router>
-            </AlertProvider>
-          </PatientContextProvider>
-        </ModalContextProvider>
-      </AuthContextProvider>
+            </PatientContextProvider>
+          </ModalContextProvider>
+        </AuthContextProvider>
+      </AlertProvider>
     </Grommet>
   );
 }
