@@ -1,5 +1,4 @@
-import { Box, Text, Button } from 'grommet';
-import { Close } from 'grommet-icons';
+import { Box, Text } from 'grommet';
 
 const AlertTemplate = ({ style, options, message, close }) => {
   return (
@@ -25,7 +24,6 @@ const AlertTemplate = ({ style, options, message, close }) => {
       style={style}
     >
       <Text>{message}</Text>
-      <Button onClick={close} icon={<Close />} />
     </Box>
   );
 };

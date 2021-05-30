@@ -2,7 +2,6 @@
   "theme_color": "#1C94B4",
   "background_color": "#1C94B4",
   "display": "standalone",
-  "scope": "/",
   "start_url": "/",
   "name": "NHI Formularz",
   "short_name": "TenFertil",

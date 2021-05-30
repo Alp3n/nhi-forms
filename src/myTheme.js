@@ -1,4 +1,4 @@
-import { grommet } from 'grommet';
+import { grommet, Text } from 'grommet';
 import { deepMerge } from 'grommet/utils';
 
 export const lightTheme = deepMerge(grommet, {
@@ -18,7 +18,7 @@ export const lightTheme = deepMerge(grommet, {
   },
   formField: {
     label: {
-      requiredIndicator: true,
+      requiredIndicator: <Text color='red'>*</Text>,
     },
   },
 

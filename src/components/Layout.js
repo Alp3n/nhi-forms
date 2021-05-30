@@ -1,25 +1,26 @@
 import { useContext } from 'react';
 import { useHistory } from 'react-router-dom';
-import { Box, Text, Layer, Header, Button } from 'grommet';
+import {
+  Box,
+  Text,
+  Layer,
+  Header,
+  Button,
+  ResponsiveContext,
+  DropButton,
+} from 'grommet';
 import { AuthContext } from '../context/authContext';
 import { ModalContext } from '../context/modalContext';
-import { useReactPWAInstall } from 'react-pwa-install';
-import tenfertilLogo from '../img/icon-192x192.png';
+import Install from './Install';
+import { CircleInformation, Logout, Menu } from 'grommet-icons';
+import Instruction from './Instruction';
 
 const Layout = ({ children, background, title }) => {
   const { user, logout } = useContext(AuthContext);
-  const { showModal, modal, closeModal } = useContext(ModalContext);
-  const { pwaInstall, supported, isInstalled } = useReactPWAInstall();
-  let history = useHistory();
+  const size = useContext(ResponsiveContext);
+  const { openModal, showModal, modal, closeModal } = useContext(ModalContext);
 
-  const handleInstall = () => {
-    pwaInstall({
-      title: 'Zainstaluj NHI Formularze',
-      logo: tenfertilLogo,
-      description:
-        'Zainstalowanie aplikacji NHI Formularze - Ankieta TenFertil ON, umożliwia łatwiejszy dostęp do aplikacji z pulpitu, oraz wygodniejszą obsługę jak każda inna mobilna aplikacja.',
-    });
-  };
+  let history = useHistory();
 
   return (
     <Box background={background} fill='vertical'>
@@ -34,26 +35,60 @@ const Layout = ({ children, background, title }) => {
             direction='row'
             align='baseline'
             gap='large'
-            margin={{ horizontal: 'small' }}
+            margin={{ horizontal: 'xsmall' }}
           >
             <Text weight='bold' size='large'>
               {title}
             </Text>
-            {/* {login ? null : <Text>Witaj {user.displayName}</Text>} */}
           </Box>
 
           {user ? (
-            <Box
-              onClick={() => logout(history)}
-              margin={{ horizontal: 'small' }}
-            >
-              <Text> Wyloguj</Text>
-            </Box>
-          ) : (
-            supported() &&
-            !isInstalled() && (
-              <Button label='Zainstaluj' onClick={handleInstall} />
+            size === 'small' ? (
+              <DropButton
+                icon={<Menu />}
+                dropAlign={{ top: 'bottom', right: 'right' }}
+                dropContent={
+                  <Box
+                    align='center'
+                    justify='between'
+                    width='small'
+                    pad='medium'
+                    gap='large'
+                  >
+                    <Button
+                      label='Wyloguj'
+                      icon={<Logout />}
+                      plain
+                      onClick={() => logout(history)}
+                    />
+                    <Button
+                      label='Instrukcja'
+                      icon={<CircleInformation />}
+                      plain
+                      onClick={() => openModal(<Instruction />)}
+                    />
+                  </Box>
+                }
+              />
+            ) : (
+              <Box direction='row' gap='medium'>
+                <Button
+                  label='Instrukcja'
+                  icon={<CircleInformation />}
+                  onClick={() => openModal(<Instruction />)}
+                />
+                <Button
+                  label='Wyloguj'
+                  onClick={() => logout(history)}
+                  margin={{ horizontal: 'xsmall' }}
+                />
+              </Box>
             )
+          ) : (
+            <Button
+              label='Zainstaluj'
+              onClick={() => openModal(<Install closeModal={closeModal} />)}
+            />
           )}
         </Header>
       ) : null}

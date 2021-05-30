@@ -4,7 +4,15 @@ import useFetch from 'react-fetch-hook';
 
 import { SEARCH_URL } from '../utils/consts';
 
-import { Box, Grid, ResponsiveContext, Spinner, Tab, Tabs } from 'grommet';
+import {
+  Box,
+  Grid,
+  ResponsiveContext,
+  Spinner,
+  Tab,
+  Tabs,
+  Text,
+} from 'grommet';
 import Layout from '../components/Layout';
 import PatientCard from '../components/PatientCard';
 import GoogleForm from '../components/GoogleForm';
@@ -41,11 +49,21 @@ const Dashboard = () => {
                 <PatientList>
                   {isLoading ? (
                     <Spinner size='large' />
-                  ) : (
+                  ) : data.length > 0 ? (
                     data.map(
-                      (item) => <PatientCard key={item['row_id']} item={item} />
+                      (item) => (
+                        <PatientCard
+                          key={item['row_id']}
+                          item={item}
+                          setResponse={setResponse}
+                        />
+                      )
                       // )
                     )
+                  ) : (
+                    <Box height='100%' margin='medium' pad='medium'>
+                      <Text size='large'>Brak Wyników</Text>
+                    </Box>
                   )}
                 </PatientList>
               </Box>
@@ -70,11 +88,19 @@ const Dashboard = () => {
           <PatientList>
             {isLoading ? (
               <Spinner size='large' />
-            ) : (
+            ) : data.length > 0 ? (
               data.map(
-                (item) => <PatientCard key={item['row_id']} item={item} />
+                (item) => (
+                  <PatientCard
+                    key={item['row_id']}
+                    item={item}
+                    setResponse={setResponse}
+                  />
+                )
                 // )
               )
+            ) : (
+              <Box>Brak Wyników</Box>
             )}
           </PatientList>
         </Grid>

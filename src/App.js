@@ -17,11 +17,11 @@ import ModalContextProvider from './context/modalContext';
 import ProtectedRoute from './components/ProtectedRoute';
 import PatientContextProvider from './context/patientContext';
 import { transitions, positions, Provider as AlertProvider } from 'react-alert';
-import ReactPWAInstallProvider from 'react-pwa-install'
 import AlertTemplate from './components/AlertTemplate';
+
 const alertOptions = {
   position: positions.TOP_CENTER,
-  timeout: 5000,
+  timeout: 2000,
   offset: '30px',
   transition: transitions.SCALE,
 };
@@ -29,29 +29,27 @@ const alertOptions = {
 function App() {
   return (
     <Grommet theme={lightTheme} full>
-      <ReactPWAInstallProvider>
-        <AlertProvider template={AlertTemplate} {...alertOptions}>
-          <AuthContextProvider>
-            <ModalContextProvider>
-              <PatientContextProvider>
-                <Router>
-                  <Switch>
-                    <Route path='/login' exact>
-                      <Login />
-                    </Route>
-                    <ProtectedRoute path='/dashboard' exact>
-                      <Dashboard />
-                    </ProtectedRoute>
-                    <Route path='/'>
-                      <Redirect to='/login' />
-                    </Route>
-                  </Switch>
-                </Router>
-              </PatientContextProvider>
-            </ModalContextProvider>
-          </AuthContextProvider>
-        </AlertProvider>
-      </ReactPWAInstallProvider>
+      <AlertProvider template={AlertTemplate} {...alertOptions}>
+        <AuthContextProvider>
+          <ModalContextProvider>
+            <PatientContextProvider>
+              <Router>
+                <Switch>
+                  <Route path='/login' exact>
+                    <Login />
+                  </Route>
+                  <ProtectedRoute path='/dashboard' exact>
+                    <Dashboard />
+                  </ProtectedRoute>
+                  <Route path='/'>
+                    <Redirect to='/login' />
+                  </Route>
+                </Switch>
+              </Router>
+            </PatientContextProvider>
+          </ModalContextProvider>
+        </AuthContextProvider>
+      </AlertProvider>
     </Grommet>
   );
 }

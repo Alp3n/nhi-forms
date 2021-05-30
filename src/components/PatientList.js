@@ -7,20 +7,16 @@ const PatientList = ({ children }) => {
         direction='row'
         background='light-2'
         pad='medium'
-        justify='between'
         elevation='small'
         style={{ zIndex: 3 }}
       >
         <Text size='large'>Wyniki pacjentów</Text>
       </Box>
       <Box height='100%' overflow='auto' pad={{ vertical: 'medium' }}>
-        <Text alignSelf='center' margin='small' size='xsmall'>
-          Lista odświeża się po 2 sekundach od przesłania ankiety
-        </Text>
         <Grid
           pad={{ horizontal: 'medium' }}
-          gap='small'
-          height='100%'
+          gap='medium'
+          // height='100%'
           overflow='auto'
           justifyContent='center'
         >

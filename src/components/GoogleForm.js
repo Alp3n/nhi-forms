@@ -114,7 +114,7 @@ const GoogleForm = ({ response, setResponse }) => {
 
   const handleSubmit = async () => {
     fetchPOST(SHEET_URL, transformBody(value)).then(() =>
-      delay(2000).then(() => setResponse(true))
+      delay(500).then(() => setResponse(true))
     );
     setValue(defaultValue);
   };
@@ -127,7 +127,7 @@ const GoogleForm = ({ response, setResponse }) => {
         onSubmit={() => handleSubmit()}
         messages={{ required: 'Wymagane' }}
       >
-        <FormField name='1' label='1. Inicjały pacjenta' required>
+        <FormField name='1' label='1. Inicjały pacjenta:' required>
           <TextInput
             name='1'
             placeholder='Twoja odpowiedź'
@@ -169,20 +169,23 @@ const GoogleForm = ({ response, setResponse }) => {
             min={0}
           />
         </FormField>
-        <FormField name='4.1' label='4.1 Jeżli wykonywał, to jakie badania?'>
-          <CheckBoxGroup
-            name='4.1'
-            options={[
-              'Normospermia',
-              'OAT I',
-              'OAT II',
-              'OAT III',
-              'Cryptozoospermia',
-              'Azoosspermia',
-              'Aspermia',
-            ]}
-          />
-        </FormField>
+        {value['4'] > 0 ? (
+          <FormField name='4.1' label='4.1 Jeżli wykonywał, to jakie badania?'>
+            <CheckBoxGroup
+              name='4.1'
+              options={[
+                'Normospermia',
+                'OAT I',
+                'OAT II',
+                'OAT III',
+                'Cryptozoospermia',
+                'Azoosspermia',
+                'Aspermia',
+              ]}
+            />
+          </FormField>
+        ) : null}
+
         <FormField name='5' label='5. Choroby towarzyszące:'>
           <CheckBoxGroup
             name='5'
@@ -248,24 +251,33 @@ const GoogleForm = ({ response, setResponse }) => {
             ]}
           />
         </FormField>
-        <FormField name='8.1' label='8.1 Jeżeli tak, to ile dawek?'>
-          <RadioButtonGroup
-            name='8.1'
-            options={[
-              { id: '5', name: '8.1', value: '1', label: '1' },
-              { id: '6', name: '8.1', value: '2', label: '2' },
-            ]}
-          />
-        </FormField>
-        <FormField name='8.2' label='8.2 Czy wystąpiły odczyny poszczepienne ?'>
-          <RadioButtonGroup
+        {value['8'] === 'Tak' ? (
+          <FormField name='8.1' label='8.1 Jeżeli tak, to ile dawek?'>
+            <RadioButtonGroup
+              name='8.1'
+              options={[
+                { id: '5', name: '8.1', value: '1', label: '1' },
+                { id: '6', name: '8.1', value: '2', label: '2' },
+              ]}
+            />
+          </FormField>
+        ) : null}
+
+        {value['8'] === 'Tak' ? (
+          <FormField
             name='8.2'
-            options={[
-              { id: '7', name: '8.2', value: 'Tak', label: 'Tak' },
-              { id: '8', name: '8.2', value: 'Nie', label: 'Nie' },
-            ]}
-          />
-        </FormField>
+            label='8.2 Czy wystąpiły odczyny poszczepienne?'
+          >
+            <RadioButtonGroup
+              name='8.2'
+              options={[
+                { id: '7', name: '8.2', value: 'Tak', label: 'Tak' },
+                { id: '8', name: '8.2', value: 'Nie', label: 'Nie' },
+              ]}
+            />
+          </FormField>
+        ) : null}
+
         <FormField
           name='9'
           label='9. Czy wykonywał badania nasienia w okresie około-COVID?'
@@ -279,12 +291,15 @@ const GoogleForm = ({ response, setResponse }) => {
             ]}
           />
         </FormField>
-        <FormField name='9.1' label='9.1 Jeśli tak, to czy nastąpiło:'>
-          <RadioButtonGroup
-            name='9.1'
-            options={['Pogorszenie', 'Poprawa', 'Bez zmian']}
-          />
-        </FormField>
+        {value['9'] === 'Tak' ? (
+          <FormField name='9.1' label='9.1 Jeśli tak, to czy nastąpiło:'>
+            <RadioButtonGroup
+              name='9.1'
+              options={['Pogorszenie', 'Poprawa', 'Bez zmian']}
+            />
+          </FormField>
+        ) : null}
+
         <FormField
           name='10'
           label='10. Czy była stosowana / stosuje terapia poprawiającą płodność?'
@@ -298,9 +313,12 @@ const GoogleForm = ({ response, setResponse }) => {
             ]}
           />
         </FormField>
-        <FormField name='10.1' label='10.1 Jeśli tak to jaka?'>
-          <TextInput name='10.1' placeholder='Twoja odpowiedź' />
-        </FormField>
+        {value['10'] === 'Tak' ? (
+          <FormField name='10.1' label='10.1 Jeśli tak to jaka?'>
+            <TextInput name='10.1' placeholder='Twoja odpowiedź' />
+          </FormField>
+        ) : null}
+
         <FormField
           name='11'
           label='11. Czy stosował / stosuje terapie stresu oksydacyjnego (suplementy)?'
@@ -314,12 +332,15 @@ const GoogleForm = ({ response, setResponse }) => {
             ]}
           />
         </FormField>
-        <FormField
-          name='11.1'
-          label='11.1 Jeśli tak, to jaki preparat i jak długo?'
-        >
-          <TextInput name='11.1' placeholder='Twoja odpowiedź' />
-        </FormField>
+        {value['11'] === 'Tak' ? (
+          <FormField
+            name='11.1'
+            label='11.1 Jeśli tak, to jaki preparat i jak długo?'
+          >
+            <TextInput name='11.1' placeholder='Twoja odpowiedź' />
+          </FormField>
+        ) : null}
+
         <FormField name='12' label='12. Dodatkowy komentarz:'>
           <TextInput name='12' placeholder='Twoja odpowiedź' />
         </FormField>
@@ -333,17 +354,6 @@ const GoogleForm = ({ response, setResponse }) => {
         </Box>
       </Form>
     </Box>
-    // <iframe
-    //   title='FormOne'
-    //   src='https://docs.google.com/forms/d/e/1FAIpQLSeabZ7p0goqPk7CJubW7yzSESQC2FxtX9JAp2FSESGpeCTV-Q/viewform?embedded=true'
-    //   width='100%'
-    //   height='100%'
-    //   frameBorder='0'
-    //   marginHeight='0'
-    //   marginWidth='0'
-    // >
-    //   Ładuję…
-    // </iframe>
   );
 };
 

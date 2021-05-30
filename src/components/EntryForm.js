@@ -118,6 +118,7 @@ const EntryForm = ({
                 name='password'
                 placeholder='Wpisz swoje hasło...'
                 type='password'
+                min={7}
               />
             </FormField>
             <Box gap='medium'>

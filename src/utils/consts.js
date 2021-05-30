@@ -10,6 +10,26 @@ export const SEARCH_URL = `https://v1.nocodeapi.com/nhinstituteapi/google_sheets
 //No cache param
 export const NO_CACHE = '?cacheTime=0';
 
+export const imgLinks = [
+  { src: 'https://i.imgur.com/KJQQe2j.png', alt: '1' },
+  { src: 'https://i.imgur.com/7AHKaTg.png', alt: '2' },
+  { src: 'https://i.imgur.com/TPFL79v.png', alt: '3' },
+  { src: 'https://i.imgur.com/ityis5C.png', alt: '4' },
+  { src: 'https://i.imgur.com/nQskzTP.png', alt: '5' },
+];
+
+export const andLinks = [
+  { src: 'https://i.imgur.com/wVXpOLs.png', alt: '1' },
+  { src: 'https://i.imgur.com/oAqRhc1.png', alt: '2' },
+  { src: 'https://i.imgur.com/Wj3LVBC.png', alt: '3' },
+];
+
+export const iOSLinks = [
+  { src: 'https://i.imgur.com/QZcYUdD.png', alt: '1' },
+  { src: 'https://i.imgur.com/0rxyO5Q.png', alt: '2' },
+  { src: 'https://i.imgur.com/KYQi0rf.png', alt: '3' },
+];
+
 export const ANKIETA = [
   'Szanowni Państwo,',
   `Współczynnik dzietności w Polsce jest nadal jednym z najniższych w

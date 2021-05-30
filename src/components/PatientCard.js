@@ -7,7 +7,9 @@ import { useAlert } from 'react-alert';
 import PatientDetails from './PatientDetails';
 import SecondForm from './SecondForm';
 
-const PatientCard = ({ item }) => {
+const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+
+const PatientCard = ({ item, setResponse }) => {
   const [value1, setValue1] = useState();
   const [value2, setValue2] = useState();
   const [value3, setValue3] = useState();
@@ -94,6 +96,7 @@ const PatientCard = ({ item }) => {
         });
         const data = await response.json();
         if (data.message === 'Updated successfully') {
+          setResponse(false);
           return myAlert.success('Pomyślnie zatwierdzono zmianę');
         }
       } catch (err) {
@@ -115,7 +118,10 @@ const PatientCard = ({ item }) => {
 
     const body = transformBody(item, value1, value2, value3, value4, value5);
 
-    fetchPUT(SHEET_URL, body);
+    fetchPUT(SHEET_URL, body).then(() =>
+      delay(500).then(() => setResponse(true))
+    );
+
     setChanged(false);
   };
 
@@ -146,20 +152,26 @@ const PatientCard = ({ item }) => {
           onClick={() => openModal(<PatientDetails item={item} />)}
         />
       </Box>
-      <Box
-        direction='column'
-        pad='medium'
-        justify='around'
-        align='center'
-        gap='small'
-      >
-        <Text weight='bold'>Rekomendowana liczba opakowań</Text>
-        <Box overflow='auto' direction='row' pad='small'>
+      <Box direction='column' justify='around' align='center'>
+        <Text weight='bold' margin='small'>
+          Rekomendowana liczba opakowań
+        </Text>
+        <Box
+          overflow='auto'
+          direction='row'
+          pad={{ horizontal: 'medium', bottom: 'small' }}
+        >
           <CheckBox
             checked={value1}
             label='1'
             pad={{ right: 'medium' }}
-            disabled={value2 ? true : false}
+            disabled={
+              value2
+                ? true
+                : false || item['Pierwsze'] === 'TRUE'
+                ? true
+                : false
+            }
             onChange={(event) => setValue1(event.target.checked)}
           />
           <CheckBox
@@ -167,11 +179,13 @@ const PatientCard = ({ item }) => {
             label='2'
             pad={{ right: 'medium' }}
             // disabled={switchDisabled(allValues)}
-            disabled={value1 ? false : true}
+            disabled={
+              item['Drugie'] === 'TRUE' ? true : false || value1 ? false : true
+            }
             onChange={(event) => setValue2(event.target.checked)}
           />
           <Button
-            label='Wizyta kontrolna - ankieta'
+            label='Wizyta kontrolna 3 - ankieta'
             margin={{ right: 'medium' }}
             style={{ whiteSpace: 'nowrap' }}
             disabled={true}

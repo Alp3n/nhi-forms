@@ -15,7 +15,12 @@ const Detail = ({ title, data }) => {
 const PatientDetails = ({ item }) => {
   const { closeModal } = useContext(ModalContext);
   return (
-    <Box elevation='small' background='light-1' direction='column'>
+    <Box
+      elevation='small'
+      background='light-1'
+      direction='column'
+      height='large'
+    >
       <Box
         direction='row'
         align='center'

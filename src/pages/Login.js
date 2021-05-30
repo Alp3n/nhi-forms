@@ -7,6 +7,7 @@ import {
   ResponsiveContext,
   Grid,
   DropButton,
+  Spinner,
 } from 'grommet';
 
 import { Redirect, useHistory } from 'react-router';
@@ -109,24 +110,26 @@ const Login = () => {
         }
         areas={areas}
         gap='small'
-
         justifyContent='center'
         alignContent='center'
-
       >
         <Box gridArea='form' alignSelf='start'>
-          <EntryForm
-            fill='horizontal'
-            register={register}
-            login={login}
-            signOut={signOut}
-            loading={loading}
-            error={error}
-            loginData={loginData}
-            setLoginData={setLoginData}
-            setRegister={setRegister}
-            history={history}
-          />
+          {loading ? (
+            <Spinner size='large' />
+          ) : (
+            <EntryForm
+              fill='horizontal'
+              register={register}
+              login={login}
+              signOut={signOut}
+              loading={loading}
+              error={error}
+              loginData={loginData}
+              setLoginData={setLoginData}
+              setRegister={setRegister}
+              history={history}
+            />
+          )}
         </Box>
         <Box
           pad='small'
@@ -136,7 +139,10 @@ const Login = () => {
           // align='center'
           alignSelf='start'
         >
-          <LinkWrapper href='https://docs.google.com/forms/d/e/1FAIpQLSeabZ7p0goqPk7CJubW7yzSESQC2FxtX9JAp2FSESGpeCTV-Q/viewform'>
+          <LinkWrapper
+            href='https://docs.google.com/forms/d/e/1FAIpQLSeabZ7p0goqPk7CJubW7yzSESQC2FxtX9JAp2FSESGpeCTV-Q/viewform'
+            target='blank'
+          >
             <PrintButton label='Wydrukuj ankietę' />
           </LinkWrapper>
           <Text margin='small'>
