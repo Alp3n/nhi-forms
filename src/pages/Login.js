@@ -136,7 +136,6 @@ const Login = () => {
           background='light-1'
           elevation='small'
           gridArea='print'
-          // align='center'
           alignSelf='start'
         >
           <LinkWrapper
@@ -146,9 +145,9 @@ const Login = () => {
             <PrintButton label='Wydrukuj ankietę' />
           </LinkWrapper>
           <Text margin='small'>
-            Aby wydrukować ankietę kliknij w przycisk powyżej, a następnie na
-            kalwiaturze CTRL+P, lub prawy przycisk myszy i wybierz opcję
-            "Drukuj"
+            Aby wydrukować ankietę, otwórz aplikację w przeglądarce Chrome i
+            kliknij w przycisk powyżej, a następnie na kalwiaturze CTRL+P, lub
+            prawy przycisk myszy i wybierz opcję "Drukuj"
           </Text>
         </Box>
         {size === 'small' ? (

@@ -33,7 +33,7 @@ const Install = ({ closeModal }) => {
   const [content, setContent] = useState('');
   return (
     <Box
-      height='100%'
+      height='large'
       elevation='small'
       background='light-1'
       direction='column'
