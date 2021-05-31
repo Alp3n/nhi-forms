@@ -58,13 +58,6 @@ const Login = ({ refresh, setRefresh }) => {
 
   let history = useHistory();
 
-  // useEffect(() => {
-  //   if (refresh) {
-  //     setRefresh(false);
-
-  //   }
-  // }, [refresh, setRefresh]);
-
   if (user) {
     return <Redirect to='/dashboard' />;
   }

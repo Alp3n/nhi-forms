@@ -22,10 +22,6 @@ const Layout = ({ children, background, title }) => {
 
   let history = useHistory();
 
-  /*   const handleRefresh = () => {
-    window.location.reload();
-  }; */
-
   return (
     <Box background={background} fill='vertical'>
       {title ? (
@@ -89,19 +85,10 @@ const Layout = ({ children, background, title }) => {
               </Box>
             )
           ) : (
-            <>
-              {/* {size === 'small' ? (
-                <Button
-                  plain
-                  icon={<Refresh />}
-                  onClick={() => handleRefresh()}
-                />
-              ) : null} */}
-              <Button
-                label='Zainstaluj'
-                onClick={() => openModal(<Install closeModal={closeModal} />)}
-              />
-            </>
+            <Button
+              label='Zainstaluj'
+              onClick={() => openModal(<Install closeModal={closeModal} />)}
+            />
           )}
         </Header>
       ) : null}
