@@ -109,16 +109,16 @@ const EntryForm = ({
             </FormField>
             <FormField
               name='password'
-              label='Hasło'
+              label={register ? 'Hasło (min 8 znaków)' : 'Hasło'}
               htmlFor='password-input-id'
               required
             >
               <TextInput
                 id='password-input-id'
                 name='password'
-                placeholder='Wpisz swoje hasło...'
+                placeholder='Wpisz hasło min 8 znaków...'
                 type='password'
-                min={7}
+                minLength={8}
               />
             </FormField>
             <Box gap='medium'>
