@@ -35,6 +35,8 @@ const EntryForm = ({
 }) => {
   const [registerData, setRegisterData] = useState(defaultRegisterData);
   const [reveal, setReveal] = useState(false);
+  const [reset, setReset] = useState(false);
+  const [email, setEmail] = useState('');
   const [createUserWithEmailAndPassword] = useCreateUserWithEmailAndPassword(
     firebaseObj.auth() /* ,{sendEmailVerification : true} */
   );
@@ -55,6 +57,15 @@ const EntryForm = ({
         myAlert.error('Wystąpił błąd przy rejestracji');
         console.log(error);
       });
+  };
+
+  const handlePasswordReset = (email) => {
+    const auth = firebaseObj.auth();
+
+    auth
+      .sendPasswordResetEmail(email)
+      .then(() => myAlert.success('Wysłano email do zresetowania hasła'))
+      .catch((err) => myAlert.error('Wystąpił błąd przy resetowaniu hasła'));
   };
 
   return (
@@ -122,7 +133,11 @@ const EntryForm = ({
                   plain
                   id='password-input-id'
                   name='password'
-                  placeholder='Wpisz hasło min 8 znaków...'
+                  placeholder={
+                    register
+                      ? 'Wpisz hasło min 8 znaków...'
+                      : 'Wpisz swoje hasło...'
+                  }
                   type={reveal ? 'text' : 'password'}
                   minLength={8}
                   focusIndicator={false}
@@ -156,13 +171,36 @@ const EntryForm = ({
                   onClick={() => setRegister(false)}
                 />
               ) : (
-                <Button
-                  label='Nie masz konta? Kliknij tutaj aby się zarejestrować.'
-                  plain
-                  color='primary'
-                  style={{ fontSize: '16px' }}
-                  onClick={() => setRegister(true)}
-                />
+                <Box gap='small'>
+                  <Button
+                    label='Zapomniałeś hasło? Kliknij tutaj aby je zresetować.'
+                    plain
+                    color='primary'
+                    style={{ fontSize: '16px' }}
+                    onClick={() => setReset((prev) => !prev)}
+                  />
+                  {reset ? (
+                    <Box gap='small'>
+                      <TextInput
+                        value={email}
+                        onChange={(event) => setEmail(event.target.value)}
+                        placeholder='Twój email...'
+                        type='email'
+                      />
+                      <Button
+                        label='Wyślij email resetujący hasło'
+                        onClick={() => handlePasswordReset(email)}
+                      />
+                    </Box>
+                  ) : null}
+                  <Button
+                    label='Nie masz konta? Kliknij tutaj aby się zarejestrować.'
+                    plain
+                    color='primary'
+                    style={{ fontSize: '16px' }}
+                    onClick={() => setRegister(true)}
+                  />
+                </Box>
               )}
             </Box>
           </Form>
