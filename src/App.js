@@ -1,5 +1,4 @@
 // import './App.css';
-
 import {
   Route,
   BrowserRouter as Router,
@@ -33,7 +32,7 @@ function App() {
         <AuthContextProvider>
           <ModalContextProvider>
             <PatientContextProvider>
-              <Router>
+              <Router forceRefresh={true}>
                 <Switch>
                   <Route path='/login' exact>
                     <Login />

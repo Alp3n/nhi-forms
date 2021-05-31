@@ -21,22 +21,6 @@ const defaultLoginData = {
   password: '',
 };
 
-/* 
-MOBILE
-------
-FORM
-ABOUT
-PRINT
-
-
-MEDIUM
-------
-FORM ABOUT
-PRINT ABOUT
-
-
-*/
-
 const areas = {
   small: [
     { name: 'form', start: [0, 0], end: [1, 0] },
@@ -64,14 +48,22 @@ const ResponsiveGrid = ({ children, areas, ...props }) => {
   );
 };
 
-const Login = () => {
+const Login = ({ refresh, setRefresh }) => {
   const [loginData, setLoginData] = useState(defaultLoginData);
   const [register, setRegister] = useState(false);
+
   const size = useContext(ResponsiveContext);
 
   const { user, loading, error, login, signOut } = useContext(AuthContext);
 
   let history = useHistory();
+
+  // useEffect(() => {
+  //   if (refresh) {
+  //     setRefresh(false);
+
+  //   }
+  // }, [refresh, setRefresh]);
 
   if (user) {
     return <Redirect to='/dashboard' />;

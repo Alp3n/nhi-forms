@@ -12,7 +12,7 @@ import {
 import { AuthContext } from '../context/authContext';
 import { ModalContext } from '../context/modalContext';
 import Install from './Install';
-import { CircleInformation, Logout, Menu } from 'grommet-icons';
+import { CircleInformation, Logout, Menu /* Refresh */ } from 'grommet-icons';
 import Instruction from './Instruction';
 
 const Layout = ({ children, background, title }) => {
@@ -21,6 +21,10 @@ const Layout = ({ children, background, title }) => {
   const { openModal, showModal, modal, closeModal } = useContext(ModalContext);
 
   let history = useHistory();
+
+  /*   const handleRefresh = () => {
+    window.location.reload();
+  }; */
 
   return (
     <Box background={background} fill='vertical'>
@@ -85,10 +89,19 @@ const Layout = ({ children, background, title }) => {
               </Box>
             )
           ) : (
-            <Button
-              label='Zainstaluj'
-              onClick={() => openModal(<Install closeModal={closeModal} />)}
-            />
+            <>
+              {/* {size === 'small' ? (
+                <Button
+                  plain
+                  icon={<Refresh />}
+                  onClick={() => handleRefresh()}
+                />
+              ) : null} */}
+              <Button
+                label='Zainstaluj'
+                onClick={() => openModal(<Install closeModal={closeModal} />)}
+              />
+            </>
           )}
         </Header>
       ) : null}
