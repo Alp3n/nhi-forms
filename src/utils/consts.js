@@ -72,3 +72,10 @@ Naszej wspólnej przyszłości.`,
   `Dziękuję i łączę wyrazy szacunku, Adriana Grodzicka Prezes
 Nutrition Health Institute Sp. z o.o.`,
 ];
+
+/* "rewrites": [
+      {
+        "source": "**",
+        "destination": "/index.html"
+      }
+    ] */

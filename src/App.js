@@ -32,7 +32,7 @@ function App() {
         <AuthContextProvider>
           <ModalContextProvider>
             <PatientContextProvider>
-              <Router forceRefresh={true}>
+              <Router>
                 <Switch>
                   <Route path='/login' exact>
                     <Login />
