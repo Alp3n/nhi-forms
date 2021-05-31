@@ -13,6 +13,7 @@ import {
   Spinner,
 } from 'grommet';
 import { useAlert } from 'react-alert';
+import { Hide, View } from 'grommet-icons';
 
 const defaultRegisterData = {
   name: '',
@@ -33,6 +34,7 @@ const EntryForm = ({
   ...props
 }) => {
   const [registerData, setRegisterData] = useState(defaultRegisterData);
+  const [reveal, setReveal] = useState(false);
   const [createUserWithEmailAndPassword] = useCreateUserWithEmailAndPassword(
     firebaseObj.auth() /* ,{sendEmailVerification : true} */
   );
@@ -91,6 +93,8 @@ const EntryForm = ({
                   id='name-input-id'
                   name='name'
                   placeholder='Wpisz swoje imię i nazwisko...'
+                  type='text'
+                  minLength={6}
                 />
               </FormField>
             ) : null}
@@ -113,13 +117,22 @@ const EntryForm = ({
               htmlFor='password-input-id'
               required
             >
-              <TextInput
-                id='password-input-id'
-                name='password'
-                placeholder='Wpisz hasło min 8 znaków...'
-                type='password'
-                minLength={8}
-              />
+              <Box direction='row'>
+                <TextInput
+                  plain
+                  id='password-input-id'
+                  name='password'
+                  placeholder='Wpisz hasło min 8 znaków...'
+                  type={reveal ? 'text' : 'password'}
+                  minLength={8}
+                  focusIndicator={false}
+                />
+                {reveal ? (
+                  <Button icon={<View />} onClick={() => setReveal(false)} />
+                ) : (
+                  <Button icon={<Hide />} onClick={() => setReveal(true)} />
+                )}
+              </Box>
             </FormField>
             <Box gap='medium'>
               {register ? (
