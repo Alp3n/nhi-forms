@@ -12,7 +12,12 @@ import {
 import { AuthContext } from '../context/authContext';
 import { ModalContext } from '../context/modalContext';
 import Install from './Install';
-import { CircleInformation, Logout, Menu /* Refresh */ } from 'grommet-icons';
+import {
+  CircleInformation,
+  Logout,
+  Menu /* Refresh */,
+  Update,
+} from 'grommet-icons';
 import Instruction from './Instruction';
 
 const Layout = ({ children, background, title }) => {
@@ -66,6 +71,12 @@ const Layout = ({ children, background, title }) => {
                       icon={<CircleInformation />}
                       plain
                       onClick={() => openModal(<Instruction />)}
+                    />
+                    <Button
+                      label='Aktualizuj'
+                      icon={<Update />}
+                      plain
+                      onClick={() => window.location.reload()}
                     />
                   </Box>
                 }

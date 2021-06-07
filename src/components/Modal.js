@@ -18,6 +18,7 @@ const Modal = ({ title, children }) => {
         justify='between'
         background='portrait-2'
         pad='medium'
+        elevation='small'
       >
         <Text weight='bold' size='large' style={{ whiteSpace: 'nowrap' }}>
           {title}

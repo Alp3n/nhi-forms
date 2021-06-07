@@ -4,7 +4,6 @@ import {
   Android,
   Apple,
   Chrome,
-  Close,
   MoreVertical,
   SafariOption,
 } from 'grommet-icons';
@@ -12,6 +11,7 @@ import { Icon } from 'react-icons-kit';
 import { square_add } from 'react-icons-kit/ikons/square_add';
 import { share_2 } from 'react-icons-kit/ikons/share_2';
 import { andLinks, iOSLinks } from '../utils/consts';
+import Modal from './Modal';
 
 const UseManualImage = ({ src, alt }) => {
   return <Image fit='contain' src={src} alt={alt} />;
@@ -28,27 +28,11 @@ const Step = ({ number, text, icon, icon2, or }) => {
   );
 };
 
-const Install = ({ closeModal }) => {
+const Install = () => {
   const [show, setShow] = useState(false);
   const [content, setContent] = useState('');
   return (
-    <Box
-      height='large'
-      elevation='small'
-      background='light-1'
-      direction='column'
-    >
-      <Box
-        background='portrait-2'
-        pad='medium'
-        margin={{ bottom: 'small' }}
-        direction='row'
-        justify='between'
-        align='center'
-      >
-        <Text weight='bold'>Jak zainstalować</Text>
-        <Button onClick={closeModal} plain icon={<Close />} />
-      </Box>
+    <Modal title='Jak zainstalować'>
       {show ? (
         <Box height='medium' width='100%' gap='small'>
           <Carousel play={5000} fill>
@@ -126,7 +110,7 @@ const Install = ({ closeModal }) => {
           </Box>
         </Box>
       )}
-    </Box>
+    </Modal>
   );
 };
 
