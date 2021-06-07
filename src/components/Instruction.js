@@ -1,8 +1,8 @@
-import { useContext, useState } from 'react';
-import { Box, Button, Text, Image, Carousel } from 'grommet';
-import { ModalContext } from '../context/modalContext';
-import { Close } from 'grommet-icons';
+import { useState } from 'react';
+import { Box, Button, Image, Carousel } from 'grommet';
+
 import { imgLinks, andLinks, iOSLinks } from '../utils/consts';
+import Modal from './Modal';
 
 const UseManualImage = ({ src, alt }) => {
   return <Image fit='contain' src={src} alt={alt} />;
@@ -11,28 +11,9 @@ const UseManualImage = ({ src, alt }) => {
 const Instruction = () => {
   const [show, setShow] = useState(false);
   const [content, setContent] = useState('');
-  const { closeModal } = useContext(ModalContext);
+
   return (
-    <Box
-      elevation='small'
-      background='light-1'
-      direction='column'
-      height='large'
-      width='large'
-    >
-      <Box
-        direction='row'
-        align='center'
-        justify='between'
-        background='portrait-2'
-        pad='medium'
-        margin={{ bottom: 'large' }}
-      >
-        <Text weight='bold' size='large'>
-          Instrukcja
-        </Text>
-        <Button onClick={() => closeModal()} icon={<Close />} plain />
-      </Box>
+    <Modal title='Instrukcja'>
       {show ? (
         <Box height='medium' width='100%' gap='small'>
           <Carousel play={5000} fill>
@@ -81,7 +62,7 @@ const Instruction = () => {
           />
         </Box>
       )}
-    </Box>
+    </Modal>
   );
 };
 

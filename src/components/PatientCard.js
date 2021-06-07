@@ -182,13 +182,7 @@ const PatientCard = ({ item, setResponse }) => {
             checked={value1}
             label='1'
             pad={{ right: 'medium' }}
-            disabled={
-              value2
-                ? true
-                : false || item['Pierwsze'] === 'TRUE'
-                ? true
-                : false
-            }
+            disabled={item['Pierwsze'] === 'TRUE' ? true : false}
             onChange={(event) => setValue1(event.target.checked)}
           />
           <CheckBox
@@ -196,14 +190,22 @@ const PatientCard = ({ item, setResponse }) => {
             label='2'
             pad={{ right: 'medium' }}
             disabled={
-              item['Drugie'] === 'TRUE' ? true : false || value1 ? false : true
+              item['Drugie'] === 'TRUE'
+                ? true
+                : false || item['Pierwsze'] === 'TRUE'
+                ? false
+                : true
             }
             onChange={(event) => setValue2(event.target.checked)}
           />
           <Button
             label='Wizyta kontrolna 3 - ankieta'
             disabled={
-              item['Trzecie'] === 'TRUE' ? true : false || value2 ? false : true
+              item['Trzecie'] === 'TRUE'
+                ? true
+                : false || item['Drugie'] === 'TRUE'
+                ? false
+                : true
             }
             onClick={() =>
               openModal(
@@ -222,7 +224,11 @@ const PatientCard = ({ item, setResponse }) => {
             label='4'
             pad={{ right: 'medium' }}
             disabled={
-              item['Czwarte'] === 'TRUE' ? true : false || value3 ? false : true
+              item['Czwarte'] === 'TRUE'
+                ? true
+                : false || item['Trzecie']
+                ? false
+                : true
             }
             onChange={(event) => setValue4(event.target.checked)}
           />
@@ -231,7 +237,11 @@ const PatientCard = ({ item, setResponse }) => {
             label='5'
             pad={{ right: 'medium' }}
             disabled={
-              item['Piąte'] === 'TRUE' ? true : false || value4 ? false : true
+              item['Piąte'] === 'TRUE'
+                ? true
+                : false || item['Czwarte']
+                ? false
+                : true
             }
             onChange={(event) => setValue5(event.target.checked)}
           />
@@ -248,7 +258,7 @@ const PatientCard = ({ item, setResponse }) => {
               disabled={
                 item['Kontynuacja'] === 'TRUE'
                   ? true
-                  : false || value5
+                  : false || item['Piąte']
                   ? false
                   : true
               }
