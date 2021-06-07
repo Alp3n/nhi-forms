@@ -7,7 +7,7 @@ import { useAlert } from 'react-alert';
 import PatientDetails from './PatientDetails';
 import SecondForm from './SecondForm';
 
-const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+// const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
 const PatientCard = ({ item, setResponse }) => {
   const [value1, setValue1] = useState();
@@ -32,6 +32,7 @@ const PatientCard = ({ item, setResponse }) => {
       item['Trzecie'],
       item['Czwarte'],
       item['Piąte'],
+      item['Kontynuacja'],
     ];
 
     let cleanValues = checkboxValues.filter((obj) => obj !== undefined);
@@ -52,16 +53,16 @@ const PatientCard = ({ item, setResponse }) => {
     if (item['Piąte']) {
       setValue5(item['Piąte'].toLowerCase() === 'true');
     }
-    /* TODO if (item['Kontynuacja leczenia']) {
-      setValue5(item['Piąte'] === 'TRUE');
-    } */
+    if (item['Kontynuacja']) {
+      setValue6(item['Kontynuacja'].toLowerCase() === 'true');
+    }
   }, [item]);
 
   useEffect(() => {
     if (allValues) {
       if (
         allValues.length ===
-        [value1, value2, value3, value4, value5]
+        [value1, value2, value3, value4, value5, value6]
           .filter((el) => el !== undefined)
           .filter((el) => el !== false)
           .filter((el) => el !== 'FALSE').length
@@ -69,7 +70,7 @@ const PatientCard = ({ item, setResponse }) => {
         return setChanged(false);
       } else if (
         allValues.length !==
-        [value1, value2, value3, value4, value5]
+        [value1, value2, value3, value4, value5, value6]
           .filter((el) => el !== undefined)
           .filter((el) => el !== false)
           .filter((el) => el !== 'FALSE').length
@@ -79,7 +80,7 @@ const PatientCard = ({ item, setResponse }) => {
     } else {
       return setChanged(false);
     }
-  }, [allValues, value1, value2, value3, value4, value5]);
+  }, [allValues, value1, value2, value3, value4, value5, value6]);
 
   const handleChangeSubmit = () => {
     //Fetch for PUT method
@@ -104,7 +105,15 @@ const PatientCard = ({ item, setResponse }) => {
       }
     };
 
-    const transformBody = (item, value1, value2, value3, value4, value5) => {
+    const transformBody = (
+      item,
+      value1,
+      value2,
+      value3,
+      value4,
+      value5,
+      value6
+    ) => {
       let tempBody = {
         ...item,
         Pierwsze: value1 === true ? value1.toString().toUpperCase() : '',
@@ -112,15 +121,22 @@ const PatientCard = ({ item, setResponse }) => {
         Trzecie: value3 === true ? value3.toString().toUpperCase() : '',
         Czwarte: value4 === true ? value4.toString().toUpperCase() : '',
         Piąte: value5 === true ? value5.toString().toUpperCase() : '',
+        Kontynuacja: value6 === true ? value5.toString().toUpperCase() : '',
       };
       return tempBody;
     };
 
-    const body = transformBody(item, value1, value2, value3, value4, value5);
-
-    fetchPUT(SHEET_URL, body).then(() =>
-      delay(500).then(() => setResponse(true))
+    const body = transformBody(
+      item,
+      value1,
+      value2,
+      value3,
+      value4,
+      value5,
+      value6
     );
+
+    fetchPUT(SHEET_URL, body).then(() => setResponse(true));
 
     setChanged(false);
   };
@@ -156,10 +172,11 @@ const PatientCard = ({ item, setResponse }) => {
         <Text weight='bold' margin='small'>
           Rekomendowana liczba opakowań
         </Text>
+
         <Box
           overflow='auto'
           direction='row'
-          pad={{ horizontal: 'medium', bottom: 'small' }}
+          pad={{ horizontal: 'medium', vertical: 'small' }}
         >
           <CheckBox
             checked={value1}
@@ -178,7 +195,6 @@ const PatientCard = ({ item, setResponse }) => {
             checked={value2}
             label='2'
             pad={{ right: 'medium' }}
-            // disabled={switchDisabled(allValues)}
             disabled={
               item['Drugie'] === 'TRUE' ? true : false || value1 ? false : true
             }
@@ -186,26 +202,37 @@ const PatientCard = ({ item, setResponse }) => {
           />
           <Button
             label='Wizyta kontrolna 3 - ankieta'
+            disabled={
+              item['Trzecie'] === 'TRUE' ? true : false || value2 ? false : true
+            }
+            onClick={() =>
+              openModal(
+                <SecondForm
+                  value3={value3}
+                  setValue3={setValue3}
+                  /* setResponse={setResponse} */ item={item}
+                />
+              )
+            }
             margin={{ right: 'medium' }}
             style={{ whiteSpace: 'nowrap' }}
-            disabled={true}
-            // disabled={value2 ? false : true}
-            onClick={() =>
-              openModal(<SecondForm value3={value3} setValue3={setValue3} />)
-            }
           />
           <CheckBox
             checked={value4}
             label='4'
             pad={{ right: 'medium' }}
-            disabled={value3 ? false : true}
+            disabled={
+              item['Czwarte'] === 'TRUE' ? true : false || value3 ? false : true
+            }
             onChange={(event) => setValue4(event.target.checked)}
           />
           <CheckBox
             checked={value5}
             label='5'
             pad={{ right: 'medium' }}
-            disabled={value4 ? false : true}
+            disabled={
+              item['Piąte'] === 'TRUE' ? true : false || value4 ? false : true
+            }
             onChange={(event) => setValue5(event.target.checked)}
           />
           <span
@@ -218,7 +245,13 @@ const PatientCard = ({ item, setResponse }) => {
             <CheckBox
               checked={value6}
               label='Kontynuacja leczenia'
-              disabled={value5 ? false : true}
+              disabled={
+                item['Kontynuacja'] === 'TRUE'
+                  ? true
+                  : false || value5
+                  ? false
+                  : true
+              }
               onChange={(event) => setValue6(event.target.checked)}
             />
           </span>

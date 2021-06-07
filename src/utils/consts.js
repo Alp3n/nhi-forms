@@ -1,11 +1,15 @@
 // GOOGLE API REST consts
 
-// GET/POST/PUT/DELETE
+// FormOne
 export const SHEET_URL =
   'https://v1.nocodeapi.com/nhinstituteapi/google_sheets/wJbkgRsKofvdzpmu?cacheTime=0&tabId=FormOne';
 
-//GET Search
+//GET Search FormOne
 export const SEARCH_URL = `https://v1.nocodeapi.com/nhinstituteapi/google_sheets/wJbkgRsKofvdzpmu/search?cacheTime=0&tabId=FormOne&searchKey=Adres e-mail&searchValue=`;
+
+// FormAfter3Months
+export const SHEET_2_URL =
+  'https://v1.nocodeapi.com/nhinstituteapi/google_sheets/wJbkgRsKofvdzpmu?cacheTime=0&tabId=FormAfter3Months';
 
 //No cache param
 export const NO_CACHE = '?cacheTime=0';

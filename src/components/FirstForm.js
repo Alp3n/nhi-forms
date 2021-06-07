@@ -38,7 +38,7 @@ const defaultValue = {
 
 const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
-const GoogleForm = ({ response, setResponse }) => {
+const FirstForm = ({ response, setResponse }) => {
   const [value, setValue] = useState(defaultValue);
   const [value5, setValue5] = useState('');
   const [value6, setValue6] = useState('');
@@ -64,6 +64,7 @@ const GoogleForm = ({ response, setResponse }) => {
         (value.createdAt = new Date().toLocaleString('pl-PL')),
         value.email,
         value.name,
+        // Object.values(value).map(val => val === '' ? '-':value)
         transformValue(value[1]),
         transformValue(value[2]),
         transformValue(value[3]),
@@ -357,4 +358,4 @@ const GoogleForm = ({ response, setResponse }) => {
   );
 };
 
-export default GoogleForm;
+export default FirstForm;

@@ -15,7 +15,7 @@ import {
 } from 'grommet';
 import Layout from '../components/Layout';
 import PatientCard from '../components/PatientCard';
-import GoogleForm from '../components/GoogleForm';
+import FirstForm from '../components/FirstForm';
 import ActiveForm from '../components/ActiveForm';
 import PatientList from '../components/PatientList';
 
@@ -40,7 +40,7 @@ const Dashboard = () => {
             <Tab title='Ankieta'>
               <Box height='100%' overflow='auto'>
                 <ActiveForm>
-                  <GoogleForm response={response} setResponse={setResponse} />
+                  <FirstForm response={response} setResponse={setResponse} />
                 </ActiveForm>
               </Box>
             </Tab>
@@ -82,7 +82,7 @@ const Dashboard = () => {
           margin='medium'
         >
           <ActiveForm>
-            <GoogleForm response={response} setResponse={setResponse} />
+            <FirstForm response={response} setResponse={setResponse} />
           </ActiveForm>
 
           <PatientList>

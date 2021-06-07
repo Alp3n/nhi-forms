@@ -194,7 +194,7 @@ const EntryForm = ({
                     </Box>
                   ) : null}
                   <Button
-                    label='Nie masz konta? Kliknij tutaj aby się zarejestrować.'
+                    label='Nie masz konta? Kliknij tutaj i ZAREJESTRUJ SIĘ'
                     plain
                     color='primary'
                     style={{ fontSize: '16px' }}
